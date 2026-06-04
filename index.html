@@ -1,0 +1,2328 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>K-Petro 디지털 온보딩 가이드 — AI와 함께 만드는 나만의 포트폴리오</title>
+<meta name="description" content="Gemini AI에게 추천 받아 가며, 정답 없이 나만의 디지털 포트폴리오 1장을 만드는 가이드" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans:   ['"Pretendard Variable"','Pretendard','-apple-system','system-ui','sans-serif'],
+          mono:   ['"JetBrains Mono"','ui-monospace','SFMono-Regular','monospace'],
+          serif:  ['"Noto Serif KR"','"Source Serif Pro"','Georgia','serif'],
+        },
+        colors: {
+          ink:    '#0b0b0c',
+          paper:  '#f6f5f1',
+          chalk:  '#fffdf7',
+          accent: '#ff5b1f',
+          lemon:  '#f5d547',
+          mint:   '#b8f2c7',
+          sky:    '#bcd9ff',
+          rose:   '#ffc4d1',
+          violet: '#d6c5ff',
+        },
+      },
+    },
+  };
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  html, body { height: 100%; }
+  body { font-feature-settings: "ss03","cv11"; overflow: hidden; word-break: keep-all; overflow-wrap: break-word; }
+  h1, h2, h3, h4, h5, p, li, span, button, div { word-break: keep-all; overflow-wrap: break-word; }
+  .keep-all { word-break: keep-all; }
+  .brut    { border: 2px solid #0b0b0c; box-shadow: 6px 6px 0 0 #0b0b0c; background: #fffdf7; }
+  .brut-sm { border: 2px solid #0b0b0c; box-shadow: 4px 4px 0 0 #0b0b0c; background: #fffdf7; }
+  .brut-lg { border: 3px solid #0b0b0c; box-shadow: 10px 10px 0 0 #0b0b0c; background: #fffdf7; }
+  .chip { display:inline-flex; align-items:center; gap:.35rem; padding:.2rem .6rem; border:2px solid #0b0b0c; background:#fffdf7; font-weight:700; font-size:.72rem; letter-spacing:.02em; }
+  .chip-accent { background:#ff5b1f; color:#fff; }
+  .chip-lemon  { background:#f5d547; }
+  .chip-mint   { background:#b8f2c7; }
+  .chip-sky    { background:#bcd9ff; }
+  .chip-rose   { background:#ffc4d1; }
+  .chip-violet { background:#d6c5ff; }
+  .chip-dark   { background:#0b0b0c; color:#fffdf7; }
+  .kbd { font-family: ui-monospace, SFMono-Regular, monospace; border:1.5px solid #0b0b0c; padding:.05rem .4rem; background:#f5d547; font-size:.78rem; font-weight:700; display:inline-block; max-width:100%; overflow-wrap:anywhere; word-break:break-all; box-decoration-break:clone; -webkit-box-decoration-break:clone; line-height:1.4; }
+  .kbd-block { display:block; width:100%; padding:.25rem .45rem; font-size:.7rem; line-height:1.35; word-break:break-all; overflow-wrap:anywhere; }
+  .underbar { background-image: linear-gradient(transparent 60%, #f5d547 60%); padding: 0 .15em; }
+  .grid-bg {
+    background-image:
+      linear-gradient(#0b0b0c12 1px, transparent 1px),
+      linear-gradient(90deg, #0b0b0c12 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  .hatch { background-image: repeating-linear-gradient(45deg, #0b0b0c 0 1.5px, transparent 1.5px 8px); }
+  .dot-bg { background-image: radial-gradient(#0b0b0c33 1px, transparent 1px); background-size: 14px 14px; }
+  .tag-num {
+    display:inline-flex; align-items:center; justify-content:center;
+    width:2.4rem; height:2.4rem; border:2px solid #0b0b0c; background:#f5d547;
+    font-weight:900; font-variant-numeric: tabular-nums;
+  }
+
+  /* Slide system */
+  #stage { position: fixed; inset: 0; overflow: hidden; }
+  .slide {
+    position: absolute; inset: 0; overflow-y: auto;
+    background: #f6f5f1;
+    transform: translateX(100%);
+    transition: transform .35s cubic-bezier(.7,.1,.25,1);
+    will-change: transform;
+  }
+  .slide.is-active { transform: translateX(0); z-index: 2; }
+  .slide.is-prev   { transform: translateX(-100%); }
+  .slide-inner {
+    min-height: 100%;
+    padding: 4.5rem 1.25rem 6rem;
+    max-width: 1180px;
+    margin: 0 auto;
+    display: flex; flex-direction: column;
+  }
+  @media (min-width: 768px) {
+    .slide-inner { padding: 5rem 3rem 7rem; }
+  }
+
+  /* Top bar */
+  #topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    border-bottom: 2px solid #0b0b0c;
+    background: rgba(255,253,247,.92);
+    backdrop-filter: blur(6px);
+  }
+  #progressfill { transition: width .35s ease; }
+
+  /* Bottom nav */
+  #botbar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+    border-top: 2px solid #0b0b0c;
+    background: #0b0b0c; color: #fffdf7;
+  }
+  .navbtn {
+    border:2px solid #fffdf7; padding:.55rem 1.1rem;
+    font-weight: 800; letter-spacing: .02em;
+    background:#0b0b0c; color:#fffdf7; cursor:pointer;
+  }
+  .navbtn:hover:not(:disabled) { background:#fffdf7; color:#0b0b0c; }
+  .navbtn:disabled { opacity:.35; cursor: not-allowed; }
+  .navbtn.primary { background:#ff5b1f; color:#fffdf7; border-color:#ff5b1f; }
+  .navbtn.primary:hover { background:#fffdf7; color:#ff5b1f; }
+
+  /* Code block */
+  pre.codeblock {
+    border: 2px solid #0b0b0c;
+    background: #0b0b0c;
+    color: #fffdf7;
+    padding: 1rem;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 12px; line-height: 1.55;
+    white-space: pre-wrap;
+    overflow-x: auto;
+    position: relative;
+  }
+  .copybtn {
+    position: absolute; top:.5rem; right:.5rem;
+    background: #f5d547; color:#0b0b0c; border:2px solid #fffdf7;
+    font-weight: 800; font-size: 11px; padding:.2rem .5rem;
+    cursor: pointer;
+  }
+  .copybtn:hover { background:#fffdf7; }
+  .copybtn.copied { background:#b8f2c7; }
+
+  /* === Gemini Chat Mockup === */
+  .chat-frame {
+    border: 2px solid #0b0b0c;
+    box-shadow: 8px 8px 0 0 #0b0b0c;
+    background: #fffdf7;
+  }
+  .chat-bar {
+    border-bottom: 2px solid #0b0b0c;
+    background: #0b0b0c; color: #fffdf7;
+    padding: .55rem .9rem;
+    display: flex; align-items: center; gap:.55rem;
+    font-weight: 700; font-size: .82rem;
+  }
+  .chat-bar .led { width:.55rem; height:.55rem; border-radius:9999px; background:#b8f2c7; }
+  .chat-body { padding: 1rem; background: #fffdf7; }
+  .msg-row { display: flex; gap: .7rem; align-items: flex-start; }
+  .msg-row + .msg-row { margin-top: 1rem; }
+  .avatar {
+    flex-shrink: 0;
+    width: 2.4rem; height: 2.4rem; border: 2px solid #0b0b0c;
+    display:flex; align-items:center; justify-content:center;
+    font-weight: 800; font-size:1.05rem; background:#fffdf7;
+  }
+  .avatar.user   { background:#bcd9ff; }
+  .avatar.gemini { background:#0b0b0c; color:#fffdf7; }
+  .bubble-user {
+    background: #bcd9ff;
+    border: 2px solid #0b0b0c;
+    padding: .65rem .85rem;
+    box-shadow: 3px 3px 0 0 #0b0b0c;
+    font-size: .9rem;
+    max-width: 100%;
+  }
+  .bubble-gemini {
+    background: #fffdf7;
+    border: 2px solid #0b0b0c;
+    padding: .65rem .85rem;
+    box-shadow: 3px 3px 0 0 #0b0b0c;
+    font-size: .9rem;
+    max-width: 100%;
+  }
+  .bubble-gemini .quote {
+    border-left: 3px solid #0b0b0c;
+    padding: .5rem .7rem;
+    background: #f5d547;
+    margin-top: .55rem;
+  }
+  .bubble-gemini ol, .bubble-gemini ul { margin-top:.5rem; }
+  .bubble-gemini li { margin-top:.2rem; }
+  .name-row {
+    font-weight: 800; font-size: .72rem; color:#666;
+    margin-bottom: .25rem;
+    display: flex; align-items: center; gap: .35rem;
+  }
+
+  /* === Browser frame for portfolio mocks === */
+  .browser {
+    border: 3px solid #0b0b0c;
+    box-shadow: 10px 10px 0 0 #0b0b0c;
+    overflow: hidden;
+  }
+  .browser-bar {
+    display:flex; align-items:center; gap:.4rem;
+    padding:.4rem .6rem;
+    border-bottom: 2px solid #0b0b0c;
+    background:#0b0b0c; color:#fffdf7;
+    font-size: 11px; font-family: ui-monospace, monospace; font-weight: 700;
+  }
+  .browser-bar .dot { width:.6rem; height:.6rem; border:1.5px solid #fffdf7; background:transparent; border-radius:9999px; }
+
+  /* TOC overlay */
+  #toc {
+    position: fixed; inset: 0; z-index: 60; background: rgba(11,11,12,.85);
+    display: none; align-items: flex-start; justify-content: center;
+    padding: 2rem; overflow-y: auto;
+  }
+  #toc.is-open { display: flex; }
+  #toc .panel {
+    background:#fffdf7; border:2px solid #0b0b0c; box-shadow: 10px 10px 0 0 #ff5b1f;
+    max-width: 760px; width:100%; padding: 1.5rem;
+  }
+  .toc-item {
+    display:flex; align-items:center; gap:.8rem;
+    padding:.55rem .7rem; border:2px solid transparent; cursor:pointer; font-weight:600;
+  }
+  .toc-item:hover { background:#f5d547; border-color:#0b0b0c; }
+  .toc-num { font-family: ui-monospace, monospace; font-weight:800; width:2.2rem; color:#666; }
+
+  /* === Persona portfolio styles === */
+
+  /* 김석유 — Editorial Navy */
+  .pf-navy { background: #1c2a3a; color:#f3ecda; font-family: 'Noto Serif KR', serif; }
+  .pf-navy .gold { color:#c9a35a; }
+  .pf-navy .rule { height:2px; background:#c9a35a; }
+  .pf-navy .card { background:#243447; border:1px solid #c9a35a55; padding:1rem; }
+  .pf-navy .pill { display:inline-block; padding:.1rem .55rem; border:1px solid #c9a35a; color:#c9a35a; font-size:10px; font-family: Pretendard, sans-serif; letter-spacing:.15em; }
+
+  /* 이안전 — Safety Green Checklist */
+  .pf-safety { background:#f4f1e6; color:#1a2c20; }
+  .pf-safety .head { background:#1f5d3a; color:#fff; padding:1rem; }
+  .pf-safety .tag-orange { display:inline-block; padding:.15rem .55rem; background:#ff8c00; color:#fff; font-size:10px; font-weight:800; letter-spacing:.1em; }
+  .pf-safety .check-row { display:flex; gap:.6rem; align-items:flex-start; padding:.4rem 0; border-bottom: 1px dashed #1f5d3a55; }
+  .pf-safety .checkmark { flex-shrink:0; width:1.2rem; height:1.2rem; background:#1f5d3a; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:.8rem; }
+
+  /* 박혁신 — Brutalist Electric */
+  .pf-bru { background:#fff9d6; color:#0b0b0c; }
+  .pf-bru .blk { background:#0b0b0c; color:#fff9d6; }
+  .pf-bru .crd { border:3px solid #0b0b0c; box-shadow: 6px 6px 0 0 #0b0b0c; background:#fff; padding:.8rem; }
+  .pf-bru .orng { background:#ff5b1f; color:#fff; }
+  .pf-bru .stamp { transform: rotate(-4deg); display:inline-block; }
+
+  /* 최환경 — Sage Earth Soft */
+  .pf-sage { background:#eef2e3; color:#2b3a26; }
+  .pf-sage .card { background:#fffdf6; border:1.5px solid #88a37855; border-radius:18px; padding:1rem; }
+  .pf-sage .pill { background:#dde9c9; color:#3f6133; padding:.15rem .6rem; border-radius:9999px; font-size:10px; font-weight:700; }
+  .pf-sage .leaf-bg { background: radial-gradient(circle at 80% 20%, #c8d9b099 0, transparent 50%); }
+
+  /* === Interactive Persona Items === */
+  .ix-item {
+    cursor: pointer;
+    transition: transform .12s ease, filter .12s ease, box-shadow .12s ease;
+    position: relative;
+    user-select: none;
+  }
+  .ix-item:hover { transform: translateY(-1px); filter: brightness(1.1); }
+  .ix-item:active { transform: translateY(0); }
+  .ix-item.ix-active { outline: 2px dashed currentColor; outline-offset: 3px; }
+  .ix-item::after {
+    content: '👆';
+    position: absolute; top: -8px; right: -6px;
+    font-size: 10px; opacity: 0;
+    transition: opacity .15s ease;
+    pointer-events: none;
+  }
+  .ix-item:hover::after { opacity: .8; }
+  .ix-hint { font-size: 9px; opacity: 0.65; letter-spacing: .04em; font-weight: 700; }
+
+  /* hide scrollbars cosmetically (keep functional) */
+  .slide::-webkit-scrollbar { width: 8px; }
+  .slide::-webkit-scrollbar-thumb { background: #0b0b0c; border:1px solid #f6f5f1; }
+
+  /* =========================================================
+     📱 MOBILE OPTIMIZATIONS
+     ========================================================= */
+  @media (max-width: 640px) {
+    /* Tighter slide padding, more screen real estate */
+    .slide-inner { padding: 3.6rem .85rem 5rem; }
+
+    /* Top bar compact */
+    #topbar .max-w-6xl { padding-left: .65rem; padding-right: .65rem; gap: .4rem; }
+    #tocBtn { font-size: .78rem; gap: .3rem; }
+    #counter { font-size: .65rem; }
+
+    /* Bottom nav compact */
+    #botbar-main, #botbar-popup { padding-left: .65rem; padding-right: .65rem; padding-top: .55rem; padding-bottom: .55rem; }
+    .navbtn { padding: .5rem .8rem; font-size: .82rem; }
+    #botbar-popup .navbtn { font-size: .82rem !important; padding: .55rem .9rem !important; }
+
+    /* Smaller hard shadows save horizontal space */
+    .brut    { box-shadow: 4px 4px 0 0 #0b0b0c; }
+    .brut-sm { box-shadow: 3px 3px 0 0 #0b0b0c; }
+    .brut-lg { box-shadow: 6px 6px 0 0 #0b0b0c; }
+    .browser { box-shadow: 6px 6px 0 0 #0b0b0c; }
+    .chat-frame { box-shadow: 5px 5px 0 0 #0b0b0c; }
+    .mock-btn { box-shadow: 3px 3px 0 0 #ff5b1f; }
+
+    /* Chat sizing */
+    .chat-body { padding: .75rem; }
+    .avatar { width: 2rem; height: 2rem; font-size: .9rem; }
+    .bubble-user, .bubble-gemini { font-size: .82rem; padding: .55rem .7rem; line-height: 1.5; box-shadow: 2px 2px 0 0 #0b0b0c; }
+    .bubble-gemini .quote { padding: .45rem .55rem; font-size: .8rem; }
+    .name-row { font-size: .66rem; }
+
+    /* Code blocks */
+    pre.codeblock { font-size: 10.5px; padding: .65rem; line-height: 1.5; }
+    .copybtn { font-size: 10px; padding: .15rem .4rem; top: .35rem; right: .35rem; }
+
+    /* Tag·chip·kbd compact */
+    .tag-num { width: 2rem; height: 2rem; font-size: .85rem; }
+    .chip { font-size: .64rem; padding: .15rem .45rem; }
+    .kbd { font-size: .72rem; padding: .05rem .35rem; }
+
+    /* Browser bar — keep URL inside viewport */
+    .browser-bar { font-size: 10px; padding: .3rem .5rem; gap: .25rem; }
+    .browser-bar .dot { width: .5rem; height: .5rem; }
+    .browser-bar > span:last-child {
+      overflow: hidden; text-overflow: ellipsis;
+      white-space: nowrap; flex: 1; min-width: 0;
+    }
+
+    /* Headings — keep them visible without crushing layout */
+    h1.text-4xl { font-size: 1.95rem; }
+    h2.text-3xl { font-size: 1.65rem; }
+
+    /* Ix-items: hit target large enough for thumbs */
+    .ix-item { min-height: 32px; }
+
+    /* Bubble decoration in slide 04 */
+    .bubble { font-size: .8rem; }
+  }
+
+  /* Even smaller (≤ 380px) — extra tight */
+  @media (max-width: 380px) {
+    .slide-inner { padding: 3.4rem .7rem 4.8rem; }
+    h1.text-4xl { font-size: 1.75rem; }
+    .navbtn { padding: .45rem .7rem; font-size: .78rem; }
+    .chip { font-size: .6rem; }
+    pre.codeblock { font-size: 10px; }
+    .avatar { width: 1.85rem; height: 1.85rem; font-size: .85rem; }
+  }
+
+  /* === Touch devices — always show clickability cue (👆) === */
+  @media (hover: none) and (pointer: coarse) {
+    .ix-item::after { opacity: .7; }
+    .ix-item:hover { transform: none; filter: none; }
+    .ix-item:active { filter: brightness(1.15); transform: scale(.98); }
+  }
+
+  /* Prevent any odd horizontal scroll on the whole page */
+  #stage, .slide { overflow-x: hidden; }
+  pre, .bubble-user, .bubble-gemini { max-width: 100%; }
+</style>
+</head>
+<body class="bg-paper text-ink font-sans antialiased">
+
+<!-- ============== TOP BAR ============== -->
+<header id="topbar">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-2 flex items-center justify-between gap-3">
+    <button id="tocBtn" class="flex items-center gap-2 font-extrabold tracking-tight text-sm sm:text-base">
+      <span class="inline-block w-3 h-3 bg-accent border-2 border-ink"></span>
+      📘 K-Petro <span class="text-zinc-500 font-medium hidden sm:inline">디지털 온보딩 가이드</span>
+      <span class="ml-1 chip">≡ 목차</span>
+    </button>
+    <div class="flex items-center gap-3">
+      <div class="hidden sm:block w-40 md:w-64 h-2 border-2 border-ink bg-chalk overflow-hidden">
+        <div id="progressfill" class="h-full bg-accent" style="width:0%"></div>
+      </div>
+      <div id="counter" class="text-xs font-mono font-bold">01 / 22</div>
+    </div>
+  </div>
+</header>
+
+<!-- ============== STAGE ============== -->
+<main id="stage">
+
+  <!-- =========================================================
+       01 — COVER
+       ========================================================= -->
+  <section class="slide is-active" data-title="📘 시작">
+    <div class="slide-inner relative">
+      <div class="absolute inset-0 grid-bg opacity-50 -z-0"></div>
+      <div class="absolute -right-6 top-12 w-40 h-40 bg-lemon border-2 border-ink rotate-12 hidden sm:block"></div>
+      <div class="absolute right-24 bottom-32 w-20 h-20 bg-accent border-2 border-ink -rotate-6 hidden sm:block"></div>
+      <div class="absolute left-1/3 bottom-44 w-14 h-14 hatch hidden md:block"></div>
+
+      <div class="relative z-10 flex-1 flex flex-col justify-center">
+        <div class="flex flex-wrap gap-2 mb-6">
+          <span class="chip chip-accent">FOR. 2026 신입직원</span>
+          <span class="chip chip-lemon">포트폴리오 가이드</span>
+        </div>
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black leading-[1.02] tracking-tight">
+          📘 K-Petro<br/>
+          <span class="underbar">디지털 온보딩</span> 가이드.
+        </h1>
+        <p class="mt-8 max-w-2xl text-2xl font-bold text-zinc-800">
+          AI(Gemini)와 함께 만드는<br/><span class="underbar">나만의 포트폴리오</span>.
+        </p>
+
+        <div class="mt-10 brut p-5 bg-chalk max-w-3xl">
+          <div class="chip mb-2">🎯 왜 만드나요</div>
+          <p class="text-base text-zinc-800 leading-relaxed">
+            <b>첫 인사를 더 풍부하게.</b> 종이 명함이나 자기소개 한 줄로는 담을 수 없는
+            <b class="underbar">나의 강점·관심사·성장 방향</b>을, 멘토와 부서원에게 한 페이지로 전달합니다.
+          </p>
+          <div class="mt-4 border-t-2 border-dashed border-ink pt-4">
+            <div class="chip chip-lemon mb-2">🚀 어디에 쓰나요</div>
+            <ul class="text-sm text-zinc-800 space-y-1.5">
+              <li>• <b>OJT 첫날</b> — 사수·동료에게 자신을 한 번에 소개</li>
+              <li>• <b>부서 회의·환영회</b> — 짧은 시간에 인상 깊은 자기 PR</li>
+              <li>• <b>멘토링·1:1 면담</b> — "어떻게 자라고 싶은지"를 함께 보며 대화</li>
+              <li>• <b>1년 후 다시 보기</b> — 입사 때의 다짐과 비교하는 성장 기록</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-10 flex items-center gap-3 text-sm text-zinc-700">
+          <span class="kbd">→</span>
+          <span>오른쪽 버튼이나 키보드 <b>화살표 키</b>로 다음 단계로 이동하세요.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       02 — GOAL
+       ========================================================= -->
+  <section class="slide" data-title="교육 목표">
+    <div class="slide-inner">
+      <div class="flex items-baseline gap-3 mb-2">
+        <span class="tag-num">01</span>
+        <span class="chip">교육 목표</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-black tracking-tight mt-2">결과물은 <span class="underbar">나만의 포트폴리오</span>.</h2>
+
+      <div class="mt-8 brut p-5 bg-chalk max-w-3xl">
+        <p class="text-base text-zinc-800 leading-relaxed">
+          신입사원의 열정과 정보를 AI로 정제하여,
+          멘토와 부서원에게 자신을 소개하는 <b>세련된 디지털 명함 — 나만의 포트폴리오 한 장</b>을 제작합니다.
+        </p>
+      </div>
+
+      <div class="mt-10 grid md:grid-cols-3 gap-5">
+        <div class="brut p-5">
+          <div class="text-4xl">🪪</div>
+          <h3 class="font-black mt-2 text-lg">디지털 명함</h3>
+          <p class="text-sm text-zinc-700 mt-2">종이 명함보다 더 풍부하게, 첫인상을 전달.</p>
+        </div>
+        <div class="brut p-5 bg-mint">
+          <div class="text-4xl">🎨</div>
+          <h3 class="font-black mt-2 text-lg">나만의 스타일</h3>
+          <p class="text-sm mt-2">컬러·톤·구성 모두 본인이 결정. <b>나만의 정보를 담아보세요.</b></p>
+        </div>
+        <div class="brut p-5 bg-sky">
+          <div class="text-4xl">🔄</div>
+          <h3 class="font-black mt-2 text-lg">계속 자라는 페이지</h3>
+          <p class="text-sm mt-2">OJT 동안, 1년 차 동안, 계속 다듬어 나갈 수 있는 살아있는 명함.</p>
+        </div>
+      </div>
+
+      <div class="mt-10 brut p-4 bg-lemon flex items-center gap-3">
+        <div class="text-2xl">🎯</div>
+        <p class="text-sm flex-1"><b>완성 형태:</b> 단일 HTML 웹페이지 1장. PDF로 인쇄해 출력하거나, URL로 공유하거나, 이미지로 캡처해 전달할 수 있습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       03 — 3 STEPS OVERVIEW
+       ========================================================= -->
+  <section class="slide" data-title="3단계 흐름">
+    <div class="slide-inner">
+      <div class="flex items-baseline gap-3 mb-2">
+        <span class="tag-num">02</span>
+        <span class="chip">전체 흐름</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-black tracking-tight mt-2">Gemini와 함께 3단계로.</h2>
+      <p class="mt-3 text-zinc-700 max-w-2xl">각 단계마다 <b>Gemini에게 무엇을 추천 받을지</b>가 핵심입니다.</p>
+
+      <div class="mt-10 grid md:grid-cols-3 gap-5 flex-1">
+        <div class="brut p-6 relative">
+          <div class="absolute -top-3 -left-3 chip chip-dark">STEP 1</div>
+          <div class="text-5xl mt-2">📝</div>
+          <h3 class="font-black text-xl mt-3 whitespace-nowrap">재료 준비 · 카피라이팅</h3>
+          <div class="mt-2 chip chip-lemon">Day 1 ~ 2</div>
+          <p class="text-sm text-zinc-700 mt-3"><b>"무엇을 담을지" 추천</b>받고, 그 내용을 공공기관 신입사원답게 다듬기.</p>
+        </div>
+        <div class="brut p-6 relative bg-mint">
+          <div class="absolute -top-3 -left-3 chip chip-dark">STEP 2</div>
+          <div class="text-5xl mt-2">🎨</div>
+          <h3 class="font-black text-xl mt-3 whitespace-nowrap">디자인 컨셉 · 코드 생성</h3>
+          <div class="mt-2 chip">Day 3</div>
+          <p class="text-sm mt-3"><b>"어떤 디자인이 어울릴지" 추천</b>받고, 골라서 HTML 코드까지 받기.</p>
+        </div>
+        <div class="brut p-6 relative bg-sky">
+          <div class="absolute -top-3 -left-3 chip chip-dark">STEP 3</div>
+          <div class="text-5xl mt-2">🚀</div>
+          <h3 class="font-black text-xl mt-3 whitespace-nowrap">완성 · 공유</h3>
+          <div class="mt-2 chip">Day 4 ~ 5</div>
+          <p class="text-sm mt-3">코드를 파일로 저장 → 브라우저에서 확인 → 원하는 형태로 공유.</p>
+        </div>
+      </div>
+
+      <div class="mt-10 brut p-5 bg-chalk">
+        <div class="flex items-center gap-3">
+          <div class="text-2xl">🤝</div>
+          <p class="text-sm flex-1"><b>Gemini와 대화하는 법:</b> "어떤 게 좋을지 5가지만 추천해줘"처럼 <b>선택지를 달라고</b> 하세요. 정답을 강요하지 마세요.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       04 — PREP
+       ========================================================= -->
+  <section class="slide" data-title="준비물">
+    <div class="slide-inner">
+      <div class="flex items-baseline gap-3 mb-2">
+        <span class="tag-num">03</span>
+        <span class="chip">준비물</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-black tracking-tight mt-2">두 가지면 충분합니다.</h2>
+
+      <div class="mt-10 grid md:grid-cols-2 gap-6 flex-1">
+        <div class="brut p-6">
+          <div class="text-5xl">🤖</div>
+          <h3 class="font-black text-2xl mt-3">① Gemini Advanced</h3>
+          <p class="text-sm text-zinc-700 mt-2">함께 브레인스토밍하고, 글을 다듬고, 코드를 만들 AI 파트너.</p>
+          <ol class="mt-4 text-sm space-y-2 list-decimal pl-5">
+            <li><span class="kbd">gemini.google.com</span> 접속</li>
+            <li>Google 계정으로 로그인</li>
+            <li>모델이 <b>Gemini Advanced</b>인지 확인</li>
+          </ol>
+        </div>
+
+        <div class="brut p-6 bg-mint">
+          <div class="text-5xl">📝</div>
+          <h3 class="font-black text-2xl mt-3">② 메모장</h3>
+          <p class="text-sm mt-2">코드를 저장할 텍스트 에디터.</p>
+          <ul class="mt-4 text-sm space-y-2">
+            <li>• Windows: <b>메모장</b> 또는 <b>VS Code</b></li>
+            <li>• Mac: <b>TextEdit</b>(일반 텍스트 모드)</li>
+            <li>• 확장자 <span class="kbd">.html</span> · 인코딩 <b>UTF-8</b></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-8 brut p-5 bg-lemon">
+        <div class="chip chip-dark mb-3">💡 시작하기 전 꿀팁 3가지</div>
+        <ul class="text-sm space-y-2">
+          <li>① <b>한 번에 완성하려 하지 마세요.</b> Day 1엔 재료만, Day 2엔 다듬기만 — 단계별로 끊어 작업할수록 결과가 좋아집니다.</li>
+          <li>② <b>Gemini에는 "추천 5가지" 처럼 선택지를 요청</b>하세요. 정답을 강요하면 평범한 답이 나옵니다.</li>
+          <li>③ <b>마음에 안 들면 부분만 다시 받기.</b> "두 번째 카드만 다시 써줘"처럼 처음부터 다시 받지 마세요.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       05 — STEP 1 INTRO
+       ========================================================= -->
+  <section class="slide" data-title="STEP 1 · 재료 준비">
+    <div class="slide-inner">
+      <div class="flex-1 flex flex-col justify-center relative">
+        <div class="absolute -left-4 top-0 w-72 h-72 bg-lemon border-2 border-ink rotate-3 opacity-90 hidden lg:block -z-10"></div>
+        <div class="relative">
+          <div class="flex flex-wrap items-baseline gap-3">
+            <span class="chip chip-dark">STEP 1</span>
+            <span class="chip chip-lemon">Day 1 ~ 2</span>
+          </div>
+          <h2 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight mt-3 leading-tight">
+            📝 재료 준비 · 카피라이팅.
+          </h2>
+          <p class="mt-6 text-zinc-700 max-w-xl text-lg">
+            "내 포트폴리오에 무엇을 담아야 할지" 부터 Gemini에게 <b>추천</b>받습니다.<br/><br/>
+            정해진 항목은 없습니다. 본인의 관심사와 강점에 맞춰 <b>골라 담으세요.</b>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       06 — Gemini Chat 1: ASK FOR CONTENT IDEAS
+       ========================================================= -->
+  <section class="slide" data-title="Gemini 실습 ① 콘텐츠 추천">
+    <div class="slide-inner">
+      <div class="flex items-baseline gap-3 mb-2">
+        <span class="tag-num">04</span>
+        <span class="chip chip-lemon">STEP 1-A · Gemini 실습</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-black tracking-tight mt-2">"뭐 담을까?" 부터 물어요.</h2>
+
+      <div class="mt-6 brut p-5 bg-lemon max-w-4xl">
+        <div class="chip chip-dark mb-2">💡 핵심</div>
+        <p class="text-base font-bold">Gemini의 추천은 <span class="underbar">메뉴판</span>입니다.</p>
+        <p class="text-sm mt-1 text-zinc-800">그중에서 내가 진짜 보여주고 싶은 것만 <b>담아보세요!</b></p>
+      </div>
+
+      <div class="mt-6 chat-frame max-w-4xl">
+        <div class="chat-bar">
+          <div class="led"></div>
+          <span>💻 Gemini Advanced</span>
+          <span class="ml-auto opacity-60 text-xs font-mono">대화 ①</span>
+        </div>
+        <div class="chat-body">
+
+          <div class="msg-row">
+            <div class="avatar user">🙋</div>
+            <div class="flex-1">
+              <div class="name-row">나(신입사원)</div>
+              <div class="bubble-user">
+                "안녕! 나는 한국석유관리원에 입사한 신입사원이야.
+                동료들에게 보여줄 <b>나만의 디지털 포트폴리오 한 장</b>을 만들고 싶어.
+                <b>어떤 내용을 담으면 좋을지 8가지만 추천</b>해줘.
+                각 항목이 왜 좋은지도 짧게 설명해줘."
+              </div>
+            </div>
+          </div>
+
+          <div class="msg-row">
+            <div class="avatar gemini">✨</div>
+            <div class="flex-1">
+              <div class="name-row">Gemini</div>
+              <div class="bubble-gemini">
+                "좋아요! 공공기관 신입사원의 디지털 포트폴리오에 잘 어울리는 8가지를 추천드립니다.
+                <b>이 중 본인에게 진심으로 와닿는 4~6개</b>만 담아보세요.
+                <div class="quote text-sm leading-relaxed">
+                  <ol class="list-decimal pl-5 space-y-1">
+                    <li><b>한 줄 정체성</b> — 나를 정의하는 키워드 또는 5단어</li>
+                    <li><b>입사 다짐 / 미션 선언</b> — 한 문장</li>
+                    <li><b>성격 유형 + 일하는 방식</b> — MBTI·DISC 등 자유</li>
+                    <li><b>핵심 역량 3가지</b> — 강점과 자신감 지표(% 또는 별점)</li>
+                    <li><b>관심 직무 영역</b> — 품질·안전·환경·디지털 등</li>
+                    <li><b>커리어 로드맵</b> — 1년 · 3년 · 5년 단위</li>
+                    <li><b>좋아하는 책·인용구</b> — 일에 대한 가치관 힌트</li>
+                    <li><b>연락처/멘토 메시지 버튼</b> — 닿는 통로</li>
+                  </ol>
+                </div>
+                <p class="text-xs mt-2 text-zinc-600">+ 본인의 취미·여행지도·자격증·외국어 역량 등 자유롭게 추가 가능.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       07 — Examples of content blocks (영감)
+       ========================================================= -->
+  <section class="slide" data-title="콘텐츠 영감 모음">
+    <div class="slide-inner">
+      <div class="flex items-baseline gap-3 mb-2">
+        <span class="tag-num">05</span>
+        <span class="chip">💡 콘텐츠 영감</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-black tracking-tight mt-2">이런 것도 있어요.</h2>
+      <p class="mt-3 text-zinc-700 max-w-2xl">정답이 아닌 영감입니다. <b>마음에 드는 것 몇 개만</b> 골라 Gemini에 다시 물어 보세요.</p>
+
+      <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3 flex-1 content-start">
+
+        <div class="brut-sm p-3">
+          <div class="flex items-center gap-2"><div class="text-xl">🪪</div><p class="text-xs font-bold">한 줄 정체성</p></div>
+          <div class="mt-2 brut-sm p-2 bg-paper text-[11px] italic leading-snug">"데이터로 신뢰를 만드는 사람."</div>
+        </div>
+
+        <div class="brut-sm p-3 bg-lemon">
+          <div class="flex items-center gap-2"><div class="text-xl">📜</div><p class="text-xs font-bold">입사 미션 선언</p></div>
+          <div class="mt-2 brut-sm p-2 bg-chalk text-[11px] leading-snug">"에너지의 안전을, 매일 새롭게."</div>
+        </div>
+
+        <div class="brut-sm p-3">
+          <div class="flex items-center gap-2"><div class="text-xl">🧬</div><p class="text-xs font-bold">MBTI · 성향</p></div>
+          <div class="mt-2 flex items-center gap-2">
+            <div class="w-8 h-8 border-2 border-ink bg-violet flex items-center justify-center text-xs font-black">EJ</div>
+            <div class="text-[11px] font-bold leading-tight">ENTJ<br/><span class="font-normal">전략적 실행가</span></div>
+          </div>
+        </div>
+
+        <div class="brut-sm p-3 bg-mint">
+          <div class="flex items-center gap-2"><div class="text-xl">💪</div><p class="text-xs font-bold">핵심 역량 3가지</p></div>
+          <div class="mt-2 space-y-1">
+            <div><div class="flex justify-between text-[10px] font-bold"><span>분석</span><span>95</span></div><div class="h-1.5 bg-chalk border border-ink"><div class="h-full bg-ink" style="width:95%"></div></div></div>
+            <div><div class="flex justify-between text-[10px] font-bold"><span>협업</span><span>88</span></div><div class="h-1.5 bg-chalk border border-ink"><div class="h-full bg-ink" style="width:88%"></div></div></div>
+            <div><div class="flex justify-between text-[10px] font-bold"><span>도전</span><span>80</span></div><div class="h-1.5 bg-chalk border border-ink"><div class="h-full bg-ink" style="width:80%"></div></div></div>
+          </div>
+        </div>
+
+        <div class="brut-sm p-3 bg-sky">
+          <div class="flex items-center gap-2"><div class="text-xl">🛠️</div><p class="text-xs font-bold">보유 스킬</p></div>
+          <div class="mt-2 flex flex-wrap gap-1">
+            <span class="brut-sm px-1.5 py-0.5 text-[10px] bg-chalk">Excel</span>
+            <span class="brut-sm px-1.5 py-0.5 text-[10px] bg-chalk">Python</span>
+            <span class="brut-sm px-1.5 py-0.5 text-[10px] bg-chalk">GIS</span>
+            <span class="brut-sm px-1.5 py-0.5 text-[10px] bg-chalk">CAD</span>
+          </div>
+        </div>
+
+        <div class="brut-sm p-3">
+          <div class="flex items-center gap-2"><div class="text-xl">📈</div><p class="text-xs font-bold">커리어 로드맵</p></div>
+          <div class="mt-2 flex items-center gap-1 text-[10px] font-bold">
+            <div class="flex-1 brut-sm p-1 text-center bg-lemon">1Y<br/>기초</div>
+            <span>→</span>
+            <div class="flex-1 brut-sm p-1 text-center bg-mint">3Y<br/>전문</div>
+            <span>→</span>
+            <div class="flex-1 brut-sm p-1 text-center bg-sky">5Y<br/>리드</div>
+          </div>
+        </div>
+
+        <div class="brut-sm p-3 bg-rose">
+          <div class="flex items-center gap-2"><div class="text-xl">🎯</div><p class="text-xs font-bold">올해의 목표</p></div>
+          <div class="mt-2 brut-sm p-2 bg-chalk text-[11px]">
+            "<b>기초 자격 3종</b> 취득 + <b>현장 30일</b> 동행"
+          </div>
+        </div>
+
+        <div class="brut-sm p-3">
+          <div class="flex items-center gap-2"><div class="text-xl">📚</div><p class="text-xs font-bold">인용구</p></div>
+          <div class="mt-2 border-l-2 border-ink pl-2 text-[11px] italic leading-snug">
+            "측정할 수 없으면<br/>관리할 수 없다."<br/><span class="text-[9px] not-italic font-bold">— P. Drucker</span>
+          </div>
+        </div>
+
+        <div class="brut-sm p-3 bg-violet">
+          <div class="flex items-center gap-2"><div class="text-xl">🌏</div><p class="text-xs font-bold">여행 지도</p></div>
+          <div class="mt-2 brut-sm p-2 bg-chalk relative h-12">
+            <span class="absolute top-1 left-2 text-[9px]">📍서울</span>
+            <span class="absolute top-3 right-3 text-[9px]">📍도쿄</span>
+            <span class="absolute bottom-1 left-5 text-[9px]">📍부산</span>
+            <span class="absolute bottom-2 right-2 text-[9px]">📍빈</span>
+          </div>
+        </div>
+
+        <div class="brut-sm p-3">
+          <div class="flex items-center gap-2"><div class="text-xl">🎵</div><p class="text-xs font-bold">플레이리스트</p></div>
+          <ol class="mt-2 text-[10px] space-y-0.5 list-decimal pl-3 leading-snug">
+            <li>Bach · G선상의 아리아</li>
+            <li>Daft Punk · Get Lucky</li>
+            <li>윤상 · 한걸음 더</li>
+          </ol>
+        </div>
+
+        <div class="brut-sm p-3 bg-lemon">
+          <div class="flex items-center gap-2"><div class="text-xl">🏅</div><p class="text-xs font-bold">자격증·수상</p></div>
+          <div class="mt-2 flex flex-wrap gap-1">
+            <span class="brut-sm px-1.5 py-0.5 text-[10px] bg-chalk">한국사 1급</span>
+            <span class="brut-sm px-1.5 py-0.5 text-[10px] bg-chalk">TOEIC 920</span>
+            <span class="brut-sm px-1.5 py-0.5 text-[10px] bg-chalk">ADsP</span>
+          </div>
+        </div>
+
+        <div class="brut-sm p-3 bg-mint">
+          <div class="flex items-center gap-2"><div class="text-xl">🗣️</div><p class="text-xs font-bold">외국어 역량</p></div>
+          <div class="mt-2 space-y-1">
+            <div class="flex items-center justify-between text-[10px] font-bold"><span>🇰🇷 KR</span><span class="brut-sm px-1.5 bg-chalk">Native</span></div>
+            <div class="flex items-center justify-between text-[10px] font-bold"><span>🇺🇸 EN</span><span class="brut-sm px-1.5 bg-chalk">B2</span></div>
+            <div class="flex items-center justify-between text-[10px] font-bold"><span>🇯🇵 JP</span><span class="brut-sm px-1.5 bg-chalk">A2</span></div>
+          </div>
+        </div>
+
+        <div class="brut-sm p-3">
+          <div class="flex items-center gap-2"><div class="text-xl">🤝</div><p class="text-xs font-bold">협업 스타일</p></div>
+          <ul class="mt-2 text-[10px] space-y-0.5 leading-snug">
+            <li>· 기록 먼저, 의견 다음</li>
+            <li>· 회의 전 1장 요약</li>
+            <li>· 막힐 땐 30분 안에 SOS</li>
+          </ul>
+        </div>
+
+        <div class="brut-sm p-3 bg-sky">
+          <div class="flex items-center gap-2"><div class="text-xl">💡</div><p class="text-xs font-bold">관심 직무 분야</p></div>
+          <div class="mt-2 flex flex-wrap gap-1">
+            <span class="brut-sm px-1.5 py-0.5 text-[10px] bg-chalk">#품질</span>
+            <span class="brut-sm px-1.5 py-0.5 text-[10px] bg-chalk">#표준</span>
+            <span class="brut-sm px-1.5 py-0.5 text-[10px] bg-chalk">#데이터</span>
+          </div>
+        </div>
+
+        <div class="brut-sm p-3">
+          <div class="flex items-center gap-2"><div class="text-xl">📷</div><p class="text-xs font-bold">프로필 사진</p></div>
+          <div class="mt-2 flex items-center gap-2">
+            <div class="w-10 h-10 border-2 border-ink bg-paper flex items-center justify-center font-black">😀</div>
+            <div class="text-[10px] leading-tight"><b>본인 사진</b> 또는<br/>표정 이모지<br/>둘 다 OK</div>
+          </div>
+        </div>
+
+        <div class="brut-sm p-3 bg-rose">
+          <div class="flex items-center gap-2"><div class="text-xl">✉️</div><p class="text-xs font-bold">멘토 메시지 버튼</p></div>
+          <div class="mt-2 flex justify-center">
+            <button class="brut-sm px-2 py-1 text-[10px] font-bold bg-chalk">✉️ 멘토에게 보내기</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="mt-8 brut p-4 bg-chalk">
+        <p class="text-sm"><b>💬 Gemini에 추가로 물어볼 수 있는 것:</b> "K-Petro 신입사원의 디지털 포트폴리오에 들어가면 <b>독특하고 인상적일</b> 콘텐츠 5가지도 더 추천해줘."</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       08 — Gemini Chat 2: COPYWRITING
+       ========================================================= -->
+  <section class="slide" data-title="Gemini 실습 ② 카피 다듬기">
+    <div class="slide-inner">
+      <div class="flex items-baseline gap-3 mb-2">
+        <span class="tag-num">06</span>
+        <span class="chip chip-lemon">STEP 1-B · Gemini 실습</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-black tracking-tight mt-2">내가 고른 항목을 멋지게 다듬어요.</h2>
+
+      <div class="mt-6 chat-frame max-w-4xl">
+        <div class="chat-bar">
+          <div class="led"></div>
+          <span>💻 Gemini Advanced</span>
+          <span class="ml-auto opacity-60 text-xs font-mono">대화 ②</span>
+        </div>
+        <div class="chat-body">
+
+          <div class="msg-row">
+            <div class="avatar user">🙋</div>
+            <div class="flex-1">
+              <div class="name-row">나(신입사원)</div>
+              <div class="bubble-user">
+                "내 MBTI인 <b>ENTJ</b>를 <b>'우리 회사의 업무 스타일'</b>에 맞춰서 멋지게 한 문단으로 써줘.
+                <b>신뢰감이 느껴지지만 너무 딱딱하지는 않게</b> 부탁해!"
+              </div>
+            </div>
+          </div>
+
+          <div class="msg-row">
+            <div class="avatar gemini">✨</div>
+            <div class="flex-1">
+              <div class="name-row">Gemini</div>
+              <div class="bubble-gemini">
+                "입사를 축하드립니다! ENTJ 성향을 바탕으로 신입사원의 열정이 느껴지는 문구를 작성했습니다.
+                <div class="quote">
+                  <p class="font-black">[ENTJ: 전략적 실행가]</p>
+                  <p class="mt-2 text-sm leading-relaxed">
+                    목표가 정해지면 가장 효율적인 길을 찾아 즉시 실행에 옮깁니다.
+                    한국석유관리원에서도 데이터에 기반한 철저한 분석과 멈추지 않는 추진력으로,
+                    동료들이 믿고 의지할 수 있는 <b>'현장의 든든한 파트너'</b>가 되겠습니다."
+                  </p>
+                </div>
+                <p class="text-xs mt-2 text-zinc-600">톤을 바꾸고 싶다면 "조금 더 친근하게", "더 짧게", "유머를 살짝" 등으로 다시 요청해 보세요.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 grid md:grid-cols-2 gap-4">
+        <div class="brut p-4">
+          <div class="chip">또 물어볼 수 있는 것</div>
+          <ul class="mt-2 text-sm space-y-1">
+            <li>• "내 강점 3가지를 5문장 이내로 매력적으로 써줘"</li>
+            <li>• "1·3·5년 커리어 로드맵을 카드 형식 한 줄씩 써줘"</li>
+            <li>• "이 페이지 상단 헤드라인 후보 5개를 16자 이내로 줘"</li>
+          </ul>
+        </div>
+        <div class="brut p-4 bg-mint">
+          <div class="chip">⚠️ 주의</div>
+          <ul class="mt-2 text-sm space-y-1">
+            <li>• AI가 쓴 글이라도 <b>본인이 다시 읽고 수정</b>하세요.</li>
+            <li>• 본인이 한 적 없는 경험·자격을 적지 마세요.</li>
+            <li>• 부서명·KPI 등 <b>비공개 정보는 입력 금지</b>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       09 — STEP 2 INTRO
+       ========================================================= -->
+  <section class="slide" data-title="STEP 2 · 디자인·코드">
+    <div class="slide-inner">
+      <div class="flex-1 flex flex-col justify-center relative">
+        <div class="absolute -right-4 top-0 w-72 h-72 bg-mint border-2 border-ink -rotate-3 opacity-90 hidden lg:block -z-10"></div>
+        <div class="relative">
+          <div class="flex flex-wrap items-baseline gap-3">
+            <span class="chip chip-dark">STEP 2</span>
+            <span class="chip chip-mint">Day 3</span>
+          </div>
+          <h2 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight mt-3 leading-tight">
+            🎨 디자인 컨셉 · 코드 생성.
+          </h2>
+          <p class="mt-6 text-zinc-700 max-w-xl text-lg">
+            디자인도 마찬가지. <b>"내 콘텐츠와 성향에 어울리는 디자인이 뭘까?"</b> 부터 Gemini에게 추천 받습니다.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       10 — Gemini Chat 3: DESIGN RECOMMENDATIONS
+       ========================================================= -->
+  <section class="slide" data-title="Gemini 실습 ③ 디자인 추천">
+    <div class="slide-inner">
+      <div class="flex items-baseline gap-3 mb-2">
+        <span class="tag-num">07</span>
+        <span class="chip chip-mint">STEP 2-A · Gemini 실습</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-black tracking-tight mt-2">"어떤 디자인이 어울릴까?"</h2>
+
+      <div class="mt-6 chat-frame max-w-4xl">
+        <div class="chat-bar">
+          <div class="led"></div>
+          <span>💻 Gemini Advanced</span>
+          <span class="ml-auto opacity-60 text-xs font-mono">대화 ③</span>
+        </div>
+        <div class="chat-body">
+
+          <div class="msg-row">
+            <div class="avatar user">🙋</div>
+            <div class="flex-1">
+              <div class="name-row">나(신입사원)</div>
+              <div class="bubble-user">
+                "이런 내용으로 포트폴리오를 만들 거야.<br/>
+                [내가 정리한 콘텐츠 붙여넣기]<br/><br/>
+                내 성향은 ENTJ, 키워드는 <b>'신뢰·실행·데이터'</b>야.
+                여기에 어울릴 만한 <b>웹 디자인 스타일을 5가지</b>만 추천해줘.
+                각 스타일의 컬러 팔레트도 함께 알려줘."
+              </div>
+            </div>
+          </div>
+
+          <div class="msg-row">
+            <div class="avatar gemini">✨</div>
+            <div class="flex-1">
+              <div class="name-row">Gemini</div>
+              <div class="bubble-gemini">
+                "당신의 키워드 <b>'신뢰·실행·데이터'</b>에 잘 어울리는 디자인 스타일 5가지입니다.
+                <div class="quote text-sm leading-relaxed">
+                  <ol class="list-decimal pl-5 space-y-2">
+                    <li><b>네오 브루탈리즘 (Neo-Brutalism)</b> — 굵은 검은 테두리·하드 섀도우 / <span class="font-mono text-xs">검정·노랑·오렌지</span></li>
+                    <li><b>에디토리얼 클래식 (Editorial)</b> — 잡지 톤의 세리프 + 골드 / <span class="font-mono text-xs">네이비·골드·아이보리</span></li>
+                    <li><b>다크 모노톤 (Dark Mono)</b> — 데이터 대시보드 톤 / <span class="font-mono text-xs">차콜·민트·오렌지</span></li>
+                    <li><b>스칸디 미니멀 (Scandi)</b> — 여백·얇은 라인 / <span class="font-mono text-xs">화이트·세이지·블랙</span></li>
+                    <li><b>스위스 그리드 (Swiss)</b> — 격자·헬베티카·강한 위계 / <span class="font-mono text-xs">레드·블랙·화이트</span></li>
+                  </ol>
+                </div>
+                <p class="text-xs mt-2 text-zinc-600">원하시는 것 1개를 알려주시면, 그 스타일로 React+Tailwind 단일 HTML 코드를 만들어 드리겠습니다.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 brut p-4 bg-mint">
+        <p class="text-sm"><b>💡 또 다른 질문 예시:</b> "혹시 더 따뜻한 톤도 추천해줘", "여성스러운 / 남성적인 톤은?", "한국 공공기관 톤에 맞는 디자인은?"</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       11 — DESIGN INSPIRATION GALLERY
+       ========================================================= -->
+  <section class="slide" data-title="디자인 영감 모음">
+    <div class="slide-inner">
+      <div class="flex items-baseline gap-3 mb-2">
+        <span class="tag-num">08</span>
+        <span class="chip">🎨 디자인 영감</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-black tracking-tight mt-2">참고할 만한 톤 6가지.</h2>
+      <p class="mt-3 text-zinc-700 max-w-2xl">Gemini가 추천한 스타일이 안 보인다면, 아래 키워드를 그대로 던져 보세요.</p>
+
+      <div class="mt-8 grid md:grid-cols-3 gap-4 flex-1 content-start">
+
+        <div class="brut p-4">
+          <div class="grid grid-cols-4 gap-1 mb-2">
+            <div class="h-10" style="background:#fffdf7;border:2px solid #0b0b0c"></div>
+            <div class="h-10" style="background:#f5d547;border:2px solid #0b0b0c"></div>
+            <div class="h-10" style="background:#ff5b1f;border:2px solid #0b0b0c"></div>
+            <div class="h-10" style="background:#0b0b0c;border:2px solid #0b0b0c"></div>
+          </div>
+          <h3 class="font-black">네오 브루탈리즘</h3>
+          <p class="text-xs text-zinc-600 mt-1">활기·자신감</p>
+        </div>
+
+        <div class="brut p-4">
+          <div class="grid grid-cols-4 gap-1 mb-2">
+            <div class="h-10" style="background:#1c2a3a"></div>
+            <div class="h-10" style="background:#c9a35a"></div>
+            <div class="h-10" style="background:#f3ecda"></div>
+            <div class="h-10" style="background:#0b0b0c"></div>
+          </div>
+          <h3 class="font-black">에디토리얼 클래식</h3>
+          <p class="text-xs text-zinc-600 mt-1">진중·신뢰</p>
+        </div>
+
+        <div class="brut p-4">
+          <div class="grid grid-cols-4 gap-1 mb-2">
+            <div class="h-10" style="background:#101417"></div>
+            <div class="h-10" style="background:#1f2937"></div>
+            <div class="h-10" style="background:#7dd3fc"></div>
+            <div class="h-10" style="background:#fb923c"></div>
+          </div>
+          <h3 class="font-black">다크 모노톤</h3>
+          <p class="text-xs text-zinc-600 mt-1">데이터·기술</p>
+        </div>
+
+        <div class="brut p-4">
+          <div class="grid grid-cols-4 gap-1 mb-2">
+            <div class="h-10" style="background:#fbfaf6"></div>
+            <div class="h-10" style="background:#e8efe3"></div>
+            <div class="h-10" style="background:#7ba776"></div>
+            <div class="h-10" style="background:#1b1b1b"></div>
+          </div>
+          <h3 class="font-black">스칸디 미니멀</h3>
+          <p class="text-xs text-zinc-600 mt-1">단정·차분</p>
+        </div>
+
+        <div class="brut p-4">
+          <div class="grid grid-cols-4 gap-1 mb-2">
+            <div class="h-10" style="background:#ffffff"></div>
+            <div class="h-10" style="background:#dc2626"></div>
+            <div class="h-10" style="background:#0b0b0c"></div>
+            <div class="h-10" style="background:#9ca3af"></div>
+          </div>
+          <h3 class="font-black">스위스 그리드</h3>
+          <p class="text-xs text-zinc-600 mt-1">합리·구조</p>
+        </div>
+
+        <div class="brut p-4">
+          <div class="grid grid-cols-4 gap-1 mb-2">
+            <div class="h-10" style="background:#fdf4ff"></div>
+            <div class="h-10" style="background:#a78bfa"></div>
+            <div class="h-10" style="background:#f9a8d4"></div>
+            <div class="h-10" style="background:#fde68a"></div>
+          </div>
+          <h3 class="font-black">파스텔 그라데이션</h3>
+          <p class="text-xs text-zinc-600 mt-1">부드러움·친근</p>
+        </div>
+
+      </div>
+
+      <div class="mt-8 brut p-4 bg-lemon flex items-center gap-3">
+        <div class="text-2xl">🎯</div>
+        <p class="text-sm flex-1"><b>고민이 길어진다면:</b> Gemini에게 "내 성향이 [        ]인데 이 6개 중 뭘 추천해?" 하고 다시 물어보세요.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       12 — Gemini Chat 4: REQUEST CODE
+       ========================================================= -->
+  <section class="slide" data-title="Gemini 실습 ④ 코드 받기">
+    <div class="slide-inner">
+      <div class="flex items-baseline gap-3 mb-2">
+        <span class="tag-num">09</span>
+        <span class="chip chip-mint">STEP 2-B · Gemini 실습</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-black tracking-tight mt-2">고른 디자인으로 코드를 받습니다.</h2>
+
+      <div class="mt-6 chat-frame max-w-4xl">
+        <div class="chat-bar">
+          <div class="led"></div>
+          <span>💻 Gemini Advanced</span>
+          <span class="ml-auto opacity-60 text-xs font-mono">대화 ④</span>
+        </div>
+        <div class="chat-body">
+
+          <div class="msg-row">
+            <div class="avatar user">🙋</div>
+            <div class="flex-1">
+              <div class="name-row">나(신입사원)</div>
+              <div class="bubble-user">
+                "<b>네오 브루탈리즘 스타일</b>로 가자!
+                <b>React + Tailwind CSS CDN</b>을 사용해서 <b>단일 HTML 파일</b>로 코드를 짜줘.
+                내 콘텐츠는 위에서 정리한 그대로 넣어줘.
+                모바일에서도 안 깨지게 <b>반응형</b>으로."
+              </div>
+            </div>
+          </div>
+
+          <div class="msg-row">
+            <div class="avatar gemini">✨</div>
+            <div class="flex-1">
+              <div class="name-row">Gemini</div>
+              <div class="bubble-gemini">
+                "네! 요청하신 <b>네오 브루탈리즘 스타일</b>의 반응형 단일 HTML 코드입니다.
+                아래 코드를 통째로 복사해 <span class="kbd">디지털 온보딩 포트폴리오_이름.html</span>로 저장하세요."
+                <pre class="codeblock mt-3" style="font-size:11px">&lt;!doctype html&gt;
+&lt;html lang="ko"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8" /&gt;
+  &lt;title&gt;홍길동 · K-Petro&lt;/title&gt;
+  &lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body class="bg-amber-50"&gt;
+  &lt;main class="max-w-3xl mx-auto p-8"&gt;
+    &lt;!-- HERO --&gt;
+    &lt;section class="border-4 border-black bg-white p-6
+                    shadow-[10px_10px_0_0_#000]"&gt;
+      &lt;span class="px-2 py-0.5 bg-black text-white text-xs"&gt;
+        K-PETRO NEW EMPLOYEE
+      &lt;/span&gt;
+      &lt;h1 class="text-4xl font-black mt-4"&gt;
+        Growth Partner K-Petro
+      &lt;/h1&gt;
+      ...
+    &lt;/section&gt;
+    &lt;!-- COMPETENCY / ROADMAP / CONTACT 섹션 --&gt;
+  &lt;/main&gt;
+&lt;/body&gt;
+&lt;/html&gt;<button class="copybtn" onclick="copyMe(this)">복사</button></pre>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 brut p-4 bg-mint">
+        <p class="text-sm"><b>💡 마음에 안 들면:</b> "이 부분 컬러를 더 진하게", "이 카드만 둥근 모서리로", "프로필 사진 자리 추가해줘" — 부분만 다시 요청하세요. 처음부터 다시 받지 마세요.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       13 — STEP 3 INTRO
+       ========================================================= -->
+  <section class="slide" data-title="STEP 3 · 완성·공유">
+    <div class="slide-inner">
+      <div class="flex-1 flex flex-col justify-center relative">
+        <div class="absolute -left-4 bottom-10 w-72 h-72 bg-sky border-2 border-ink rotate-3 opacity-90 hidden lg:block -z-10"></div>
+        <div class="relative">
+          <div class="flex flex-wrap items-baseline gap-3">
+            <span class="chip chip-dark">STEP 3</span>
+            <span class="chip chip-sky">Day 4 ~ 5</span>
+          </div>
+          <h2 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight mt-3 leading-tight">
+            🚀 완성 · 공유.
+          </h2>
+          <p class="mt-6 text-zinc-700 max-w-xl text-lg">
+            코드를 파일로 저장 → 브라우저로 열어보기 → 원하는 형태로 공유.<br/><br/>
+            <b>URL로 공유할 수도 있고</b>, PDF로 인쇄할 수도 있고, 이미지로 캡처할 수도 있습니다.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       14 — SAVE & OPEN
+       ========================================================= -->
+  <section class="slide" data-title="파일로 저장하고 열기">
+    <div class="slide-inner">
+      <div class="flex items-baseline gap-3 mb-2">
+        <span class="tag-num">10</span>
+        <span class="chip chip-sky">STEP 3-A · 저장</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-black tracking-tight mt-2">파일로 저장, 더블클릭.</h2>
+
+      <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-4 flex-1 content-start">
+        <div class="brut p-4">
+          <div class="text-4xl">📋</div>
+          <div class="chip mt-2">1</div>
+          <h3 class="font-black mt-2">코드 복사</h3>
+          <p class="text-xs text-zinc-700 mt-2 leading-relaxed">Gemini 답변의 코드 블록 우측 상단 <span class="kbd">Copy</span> 버튼 클릭.</p>
+        </div>
+        <div class="brut p-4 bg-lemon">
+          <div class="text-4xl">📝</div>
+          <div class="chip mt-2">2</div>
+          <h3 class="font-black mt-2">메모장 붙여넣기</h3>
+          <p class="text-xs mt-2 leading-relaxed">메모장 새 파일 열기</p>
+          <p class="text-xs mt-1.5">→ <span class="kbd">Ctrl + V</span></p>
+        </div>
+        <div class="brut p-4 bg-mint">
+          <div class="text-4xl">💾</div>
+          <div class="chip mt-2">3</div>
+          <h3 class="font-black mt-2">저장</h3>
+          <div class="text-xs mt-2 space-y-1.5">
+            <div>
+              <div class="font-bold">파일명</div>
+              <span class="kbd kbd-block mt-0.5">디지털 온보딩 포트폴리오_이름.html</span>
+            </div>
+            <div>
+              <div class="font-bold">인코딩</div>
+              <span class="kbd mt-0.5">UTF-8</span>
+            </div>
+          </div>
+        </div>
+        <div class="brut p-4 bg-sky">
+          <div class="text-4xl">🖱️</div>
+          <div class="chip mt-2">4</div>
+          <h3 class="font-black mt-2">더블클릭</h3>
+          <p class="text-xs mt-2 leading-relaxed">저장된 파일을 더블클릭하면 브라우저에서 열립니다.</p>
+        </div>
+      </div>
+
+      <div class="mt-8 brut p-5 bg-chalk">
+        <div class="chip chip-accent">⚠️ 안 보일 때 자가 점검</div>
+        <ul class="mt-3 text-sm grid sm:grid-cols-2 gap-x-6 gap-y-2">
+          <li>• <b>한글 깨짐</b> → 인코딩이 UTF-8인지 확인</li>
+          <li>• <b>스타일 깨짐</b> → 인터넷 연결 확인 (Tailwind CDN 필요)</li>
+          <li>• <b>코드 그대로 보임</b> → 확장자가 .txt 아닌 .html인지</li>
+          <li>• <b>일부 섹션 X</b> → Gemini에게 "이어서 마저 코드 보내줘"</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       15 — SHARE OPTIONS
+       ========================================================= -->
+  <section class="slide" data-title="원하는 방식으로 공유">
+    <div class="slide-inner">
+      <div class="flex items-baseline gap-3 mb-2">
+        <span class="tag-num">11</span>
+        <span class="chip chip-sky">STEP 3-B · 공유</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-black tracking-tight mt-2">원하는 방식으로 공유하세요.</h2>
+      <p class="mt-3 text-zinc-700 max-w-2xl">한 가지로 강요하지 않습니다. 본인의 상황에 맞춰 자유롭게.</p>
+
+      <div class="mt-8 grid md:grid-cols-2 lg:grid-cols-4 gap-5 flex-1 content-start">
+        <div class="brut p-5">
+          <div class="text-4xl">🌐</div>
+          <h3 class="font-black mt-2">URL 공유</h3>
+          <p class="text-xs text-zinc-600 mt-1">가장 빠르고 인상적</p>
+          <p class="text-sm mt-3"><span class="kbd">app.netlify.com/drop</span>에 폴더 드래그 → URL 1개 발급.</p>
+        </div>
+        <div class="brut p-5 bg-lemon">
+          <div class="text-4xl">📄</div>
+          <h3 class="font-black mt-2">PDF로 출력</h3>
+          <p class="text-xs mt-1">오프라인·인쇄용</p>
+          <p class="text-sm mt-3">브라우저에서 <span class="kbd">Ctrl + P</span> → "PDF로 저장".</p>
+        </div>
+        <div class="brut p-5 bg-mint">
+          <div class="text-4xl">📷</div>
+          <h3 class="font-black mt-2">이미지 캡처</h3>
+          <p class="text-xs mt-1">메신저·이메일 첨부</p>
+          <p class="text-sm mt-3">윈도우 캡처 도구 또는 Mac <span class="kbd">⌘+Shift+4</span>.</p>
+        </div>
+        <div class="brut p-5 bg-sky">
+          <div class="text-4xl">✉️</div>
+          <h3 class="font-black mt-2">이메일로 보내기</h3>
+          <p class="text-xs mt-1">멘토·사수에게 직접 전달</p>
+          <p class="text-sm mt-3">HTML 파일을 첨부 또는 URL을 본문에. <b>이번 교육에서 배운 비즈니스 메일 보내는 방법을 활용하여 작성해보세요!</b></p>
+        </div>
+      </div>
+
+      <div class="mt-8 brut p-5 bg-chalk">
+        <div class="chip chip-dark mb-3">📮 멘토에게 보내는 비즈니스 메일 예시</div>
+        <div class="brut-sm p-4 bg-paper text-sm leading-relaxed font-mono">
+          <div class="border-b border-dashed border-ink pb-2 mb-2 text-xs">
+            <div><b>받는 사람:</b> mentor@kpetro.or.kr</div>
+            <div><b>제목:</b> [신입 OOO] 디지털 온보딩 포트폴리오 공유드립니다</div>
+          </div>
+          <p>안녕하세요, 멘토님.</p>
+          <p class="mt-2">2026년 상반기에 입사한 신입직원 <b>OOO</b>입니다.</p>
+          <p class="mt-2">디지털 온보딩 교육에서 만든 <b>저의 포트폴리오 페이지</b>를 공유드립니다.<br/>
+          짧게 저를 소개드릴 수 있는 자료이니, 시간 되실 때 한 번 봐주시면 감사하겠습니다.</p>
+          <p class="mt-2">🔗 첨부: 디지털 온보딩 포트폴리오_OOO.html</p>
+          <p class="mt-2">앞으로 잘 부탁드립니다.<br/>감사합니다.</p>
+          <p class="mt-2">OOO 드림</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       16 — INSPIRATION INTRO
+       ========================================================= -->
+  <section class="slide" data-title="🎨 다른 사람들의 포트폴리오">
+    <div class="slide-inner">
+      <div class="flex-1 flex flex-col justify-center relative dot-bg">
+        <div class="absolute right-10 top-20 w-40 h-40 bg-rose border-2 border-ink rotate-6 hidden md:block"></div>
+        <div class="absolute left-12 bottom-32 w-28 h-28 bg-mint border-2 border-ink -rotate-6 hidden md:block"></div>
+
+        <div class="relative">
+          <span class="chip chip-accent">INSPIRATION</span>
+          <h2 class="text-4xl sm:text-7xl font-black tracking-tight mt-4 leading-none">
+            🎨 다른 신입사원들의<br/>포트폴리오.
+          </h2>
+          <p class="mt-6 text-lg text-zinc-700 max-w-xl">
+            같은 가이드를 따라도, 결과물은 모두 다릅니다.<br/>
+            아래 <b>아이콘을 클릭</b>해서 네 신입사원의 포트폴리오를 바로 확인해보세요.
+          </p>
+
+          <div class="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl">
+            <button onclick="goTo(16)" class="brut-sm p-4 text-center hover:bg-lemon transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] cursor-pointer">
+              <div class="text-4xl">🔬</div>
+              <p class="text-sm font-black mt-2">김석유</p>
+              <p class="text-[11px] text-zinc-500 mt-0.5">품질검사</p>
+              <div class="mt-2 text-[10px] font-bold underline">바로 보기 →</div>
+            </button>
+            <button onclick="goTo(17)" class="brut-sm p-4 text-center bg-mint hover:bg-lemon transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] cursor-pointer">
+              <div class="text-4xl">🦺</div>
+              <p class="text-sm font-black mt-2">이안전</p>
+              <p class="text-[11px] mt-0.5">안전관리</p>
+              <div class="mt-2 text-[10px] font-bold underline">바로 보기 →</div>
+            </button>
+            <button onclick="goTo(18)" class="brut-sm p-4 text-center bg-lemon hover:bg-mint transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] cursor-pointer">
+              <div class="text-4xl">⚡</div>
+              <p class="text-sm font-black mt-2">박혁신</p>
+              <p class="text-[11px] mt-0.5">디지털혁신</p>
+              <div class="mt-2 text-[10px] font-bold underline">바로 보기 →</div>
+            </button>
+            <button onclick="goTo(19)" class="brut-sm p-4 text-center bg-sky hover:bg-lemon transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] cursor-pointer">
+              <div class="text-4xl">🌱</div>
+              <p class="text-sm font-black mt-2">최환경</p>
+              <p class="text-[11px] mt-0.5">ESG·환경</p>
+              <div class="mt-2 text-[10px] font-bold underline">바로 보기 →</div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       17 — PERSONA 1: 김석유 (Editorial Navy)
+       ========================================================= -->
+  <section class="slide" data-popup="true" data-title="🔬 김석유 · 에디토리얼 클래식">
+    <div class="slide-inner">
+      <div class="flex items-center gap-3 mb-3 flex-wrap">
+        <button onclick="goTo(15)" class="chip hover:bg-lemon cursor-pointer flex-shrink-0">← 목록으로</button>
+        <span class="chip">EXAMPLE 1 / 4</span>
+        <span class="chip chip-dark">🔬 김석유 · 품질검사</span>
+      </div>
+      <h2 class="text-2xl sm:text-4xl font-black tracking-tight mt-2">에디토리얼 클래식 — 진중·신뢰</h2>
+
+      <div class="mt-6 grid lg:grid-cols-5 gap-5">
+        <!-- Portfolio mockup -->
+        <div class="lg:col-span-3">
+          <div class="browser">
+            <div class="browser-bar">
+              <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+              <span class="ml-2">kim-sukyu.kpetro.page</span>
+            </div>
+            <div class="pf-navy p-5 sm:p-7">
+              <div class="flex items-center justify-between">
+                <span class="pill">K-PETRO · QUALITY</span>
+                <span class="text-xs gold font-mono">No. 026</span>
+              </div>
+              <div class="rule my-5"></div>
+
+              <div class="flex items-start gap-4">
+                <div class="flex-1">
+                  <p class="text-xs gold tracking-widest">QUALITY INSPECTOR</p>
+                  <h3 class="text-xl sm:text-3xl font-bold mt-1 leading-tight">
+                    정확한 측정이,<br/>가장 안전한<br/>약속입니다.
+                  </h3>
+                  <p class="text-sm mt-3 opacity-80 italic">— 김석유, K-Petro 신입 (ISTJ)</p>
+                </div>
+                <!-- ISTJ Symbol Icon -->
+                <div class="text-center flex-shrink-0">
+                  <div class="border-2 w-16 h-16 flex items-center justify-center text-2xl" style="border-color:#c9a35a">📏</div>
+                  <div class="text-[10px] gold mt-1 tracking-wider">ISTJ</div>
+                  <div class="text-[9px] opacity-70">검사관</div>
+                </div>
+              </div>
+
+              <div class="rule my-5"></div>
+
+              <!-- Interactive Inspector Metrics -->
+              <div class="card">
+                <p class="text-xs gold tracking-wider">📊 INSPECTOR METRICS <span class="ix-hint">— 클릭 👆</span></p>
+                <div class="mt-3 space-y-2 text-xs">
+                  <div class="ix-item" data-persona="kim" data-item="precision" onclick="showPersonaDetail('kim','precision')" style="color:#c9a35a">
+                    <div class="flex justify-between mb-0.5"><span style="color:#f3ecda">정밀도</span><span class="font-mono">98</span></div>
+                    <div class="h-2 bg-black/40"><div class="h-full" style="width:98%;background:#c9a35a"></div></div>
+                  </div>
+                  <div class="ix-item" data-persona="kim" data-item="standard" onclick="showPersonaDetail('kim','standard')" style="color:#c9a35a">
+                    <div class="flex justify-between mb-0.5"><span style="color:#f3ecda">표준 준수</span><span class="font-mono">95</span></div>
+                    <div class="h-2 bg-black/40"><div class="h-full" style="width:95%;background:#c9a35a"></div></div>
+                  </div>
+                  <div class="ix-item" data-persona="kim" data-item="records" onclick="showPersonaDetail('kim','records')" style="color:#c9a35a">
+                    <div class="flex justify-between mb-0.5"><span style="color:#f3ecda">기록 일관성</span><span class="font-mono">92</span></div>
+                    <div class="h-2 bg-black/40"><div class="h-full" style="width:92%;background:#c9a35a"></div></div>
+                  </div>
+                  <div class="ix-item" data-persona="kim" data-item="detail" onclick="showPersonaDetail('kim','detail')" style="color:#c9a35a">
+                    <div class="flex justify-between mb-0.5"><span style="color:#f3ecda">꼼꼼함</span><span class="font-mono">99</span></div>
+                    <div class="h-2 bg-black/40"><div class="h-full" style="width:99%;background:#c9a35a"></div></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3 mt-3">
+                <div class="card">
+                  <p class="text-xs gold tracking-wider">🎖 BADGES <span class="ix-hint">— 클릭 👆</span></p>
+                  <div class="mt-2 flex flex-wrap gap-1">
+                    <span class="ix-item text-[10px] border px-1.5 py-0.5" data-persona="kim" data-item="badge-history" onclick="showPersonaDetail('kim','badge-history')" style="border-color:#c9a35a;color:#c9a35a">한국사 1급</span>
+                    <span class="ix-item text-[10px] border px-1.5 py-0.5" data-persona="kim" data-item="badge-adsp" onclick="showPersonaDetail('kim','badge-adsp')" style="border-color:#c9a35a;color:#c9a35a">ADsP</span>
+                    <span class="ix-item text-[10px] border px-1.5 py-0.5" data-persona="kim" data-item="badge-quality" onclick="showPersonaDetail('kim','badge-quality')" style="border-color:#c9a35a;color:#c9a35a">품질관리</span>
+                  </div>
+                </div>
+                <div class="ix-item card" data-persona="kim" data-item="quote" onclick="showPersonaDetail('kim','quote')" style="color:#c9a35a">
+                  <p class="text-xs tracking-wider">📖 QUOTE <span class="ix-hint">— 클릭 👆</span></p>
+                  <p class="text-xs mt-2 italic leading-relaxed" style="color:#f3ecda">"측정할 수 없으면<br/>관리할 수 없다."</p>
+                  <p class="text-[10px] mt-1">— P. Drucker</p>
+                </div>
+              </div>
+
+              <div class="card mt-3">
+                <p class="text-xs gold tracking-wider">📈 CAREER PATH <span class="ix-hint">— 클릭 👆</span></p>
+                <div class="grid grid-cols-3 gap-3 mt-3 text-xs">
+                  <div class="ix-item border-l-2 pl-2" data-persona="kim" data-item="2026" onclick="showPersonaDetail('kim','2026')" style="border-color:#c9a35a;color:#c9a35a">
+                    <div class="font-bold">2026</div><div style="color:#f3ecda">기본 검사<br/>자격 취득</div>
+                  </div>
+                  <div class="ix-item border-l-2 pl-2" data-persona="kim" data-item="2028" onclick="showPersonaDetail('kim','2028')" style="border-color:#c9a35a;color:#c9a35a">
+                    <div class="font-bold">2028</div><div style="color:#f3ecda">분석 분야<br/>전문가</div>
+                  </div>
+                  <div class="ix-item border-l-2 pl-2" data-persona="kim" data-item="2031" onclick="showPersonaDetail('kim','2031')" style="border-color:#c9a35a;color:#c9a35a">
+                    <div class="font-bold">2031</div><div style="color:#f3ecda">품질<br/>감독관</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Detail Panel -->
+              <div class="card mt-3" id="kim-detail-panel" style="background:#15202d; border-color:#c9a35a">
+                <div class="flex items-center justify-between">
+                  <p class="text-xs gold tracking-wider">💡 DETAIL VIEW</p>
+                  <span class="text-[10px] opacity-50 font-mono">LIVE</span>
+                </div>
+                <div class="detail-title text-sm font-bold mt-2 leading-tight" style="color:#f3ecda">위 항목을 클릭해보세요.</div>
+                <div class="detail-body text-xs mt-2 leading-relaxed" style="color:#f3ecda;opacity:.8">막대 그래프 · 배지 · 인용구 · 연도 카드 어떤 것이든 누르면, 그 항목의 자세한 설명이 여기에 나타납니다.</div>
+              </div>
+
+              <div class="card mt-3 flex items-center justify-between">
+                <p class="text-xs gold">📧 mentor에게 메시지</p>
+                <span class="text-xs border px-3 py-1" style="border-color:#c9a35a;color:#c9a35a">CONTACT →</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Brief -->
+        <div class="lg:col-span-2 space-y-4">
+          <div class="brut p-4">
+            <div class="chip chip-dark">🎨 디자인 톤</div>
+            <p class="text-sm mt-2"><b>에디토리얼 클래식</b><br/>네이비 · 골드 · 아이보리 · 세리프</p>
+          </div>
+          <div class="brut p-4 bg-chalk">
+            <div class="chip">💬 김석유의 Gemini 프롬프트</div>
+            <p class="text-xs mt-2 leading-relaxed">
+              "나는 품질검사 직무야. 키워드는 <b>'정확·표준·신뢰'</b>.
+              잡지 같은 클래식 에디토리얼 톤으로 만들어줘.
+              네이비 + 골드 + 세리프 폰트로."
+            </p>
+          </div>
+          <div class="brut p-4 bg-lemon">
+            <div class="chip">✨ 특징</div>
+            <p class="text-sm mt-2">측정값처럼 정확한 위계, 인용구 활용, 골드 라인.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       18 — PERSONA 2: 이안전 (Safety Checklist Green)
+       ========================================================= -->
+  <section class="slide" data-popup="true" data-title="🦺 이안전 · 체크리스트 그린">
+    <div class="slide-inner">
+      <div class="flex items-center gap-3 mb-3 flex-wrap">
+        <button onclick="goTo(15)" class="chip hover:bg-lemon cursor-pointer flex-shrink-0">← 목록으로</button>
+        <span class="chip">EXAMPLE 2 / 4</span>
+        <span class="chip chip-mint">🦺 이안전 · 안전관리</span>
+      </div>
+      <h2 class="text-2xl sm:text-4xl font-black tracking-tight mt-2">체크리스트 그린 — 안정·꼼꼼함</h2>
+
+      <div class="mt-6 grid lg:grid-cols-5 gap-5">
+        <!-- Portfolio mockup -->
+        <div class="lg:col-span-3">
+          <div class="browser">
+            <div class="browser-bar">
+              <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+              <span class="ml-2">lee-anjeon.kpetro.page</span>
+            </div>
+            <div class="pf-safety">
+              <div class="head flex items-center justify-between">
+                <div>
+                  <span class="tag-orange">SAFETY · FIRST</span>
+                  <h3 class="font-black text-xl mt-2">이안전 · 안전관리</h3>
+                  <p class="text-xs opacity-80 mt-1">한국석유관리원 신입 / ISFJ</p>
+                </div>
+                <!-- ISFJ Symbol -->
+                <div class="text-center">
+                  <div class="w-16 h-16 border-2 border-white flex items-center justify-center text-3xl" style="background:#ff8c00">🛡️</div>
+                  <div class="text-[10px] mt-1 opacity-80">수호자</div>
+                </div>
+              </div>
+
+              <div class="p-5 sm:p-6">
+                <p class="text-sm leading-relaxed">
+                  "현장의 <b>작은 위험도</b> 놓치지 않는<br/>안전 파트너가 되겠습니다."
+                </p>
+
+                <!-- 4컷 만화: 안전 성장 스토리 -->
+                <div class="mt-5">
+                  <p class="text-xs font-bold tracking-wider" style="color:#1f5d3a">📖 나의 안전 성장 스토리 <span class="ix-hint">— 클릭 👆</span></p>
+                  <div class="mt-2 grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+                    <div class="ix-item bg-white border-2 aspect-square flex flex-col items-center justify-center p-1 text-center" data-persona="lee" data-item="story-1" onclick="showPersonaDetail('lee','story-1')" style="border-color:#1f5d3a;color:#1f5d3a">
+                      <div class="text-2xl sm:text-xl">🧒</div>
+                      <p class="text-[10px] sm:text-[9px] font-bold mt-1">어릴 적 화재 대피 훈련</p>
+                    </div>
+                    <div class="ix-item bg-white border-2 aspect-square flex flex-col items-center justify-center p-1 text-center" data-persona="lee" data-item="story-2" onclick="showPersonaDetail('lee','story-2')" style="border-color:#1f5d3a;color:#1f5d3a">
+                      <div class="text-2xl sm:text-xl">📚</div>
+                      <p class="text-[10px] sm:text-[9px] font-bold mt-1">안전공학 전공</p>
+                    </div>
+                    <div class="ix-item bg-white border-2 aspect-square flex flex-col items-center justify-center p-1 text-center" data-persona="lee" data-item="story-3" onclick="showPersonaDetail('lee','story-3')" style="border-color:#1f5d3a;color:#1f5d3a">
+                      <div class="text-2xl sm:text-xl">🏗️</div>
+                      <p class="text-[10px] sm:text-[9px] font-bold mt-1">현장 인턴 6개월</p>
+                    </div>
+                    <div class="ix-item border-2 aspect-square flex flex-col items-center justify-center p-1 text-center" data-persona="lee" data-item="story-4" onclick="showPersonaDetail('lee','story-4')" style="background:#ff8c00;border-color:#1f5d3a;color:white">
+                      <div class="text-2xl sm:text-xl">🦺</div>
+                      <p class="text-[10px] sm:text-[9px] font-bold mt-1">K-Petro 안전관리</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 안전 배지 -->
+                <div class="mt-5">
+                  <p class="text-xs font-bold tracking-wider" style="color:#1f5d3a">🏅 SAFETY BADGES <span class="ix-hint">— 클릭 👆</span></p>
+                  <div class="mt-2 grid grid-cols-4 gap-2 sm:gap-2">
+                    <div class="ix-item bg-white border-2 rounded-full aspect-square flex flex-col items-center justify-center text-center" data-persona="lee" data-item="badge-industrial" onclick="showPersonaDetail('lee','badge-industrial')" style="border-color:#1f5d3a;color:#1f5d3a">
+                      <div class="text-lg">🥇</div><div class="text-[8px] font-bold">산업안전</div>
+                    </div>
+                    <div class="ix-item bg-white border-2 rounded-full aspect-square flex flex-col items-center justify-center text-center" data-persona="lee" data-item="badge-fire" onclick="showPersonaDetail('lee','badge-fire')" style="border-color:#1f5d3a;color:#1f5d3a">
+                      <div class="text-lg">🚒</div><div class="text-[8px] font-bold">소방안전</div>
+                    </div>
+                    <div class="ix-item bg-white border-2 rounded-full aspect-square flex flex-col items-center justify-center text-center" data-persona="lee" data-item="badge-chem" onclick="showPersonaDetail('lee','badge-chem')" style="border-color:#1f5d3a;color:#1f5d3a">
+                      <div class="text-lg">⚗️</div><div class="text-[8px] font-bold">위험물</div>
+                    </div>
+                    <div class="ix-item bg-white border-2 rounded-full aspect-square flex flex-col items-center justify-center text-center" data-persona="lee" data-item="badge-first-aid" onclick="showPersonaDetail('lee','badge-first-aid')" style="border-color:#1f5d3a;color:#1f5d3a">
+                      <div class="text-lg">🆘</div><div class="text-[8px] font-bold">응급처치</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Daily Habits -->
+                <div class="mt-5">
+                  <p class="text-xs font-bold tracking-wider" style="color:#1f5d3a">✅ DAILY HABITS <span class="ix-hint">— 클릭 👆</span></p>
+                  <div class="mt-2">
+                    <div class="ix-item check-row" data-persona="lee" data-item="habit-1" onclick="showPersonaDetail('lee','habit-1')" style="color:#1f5d3a"><div class="checkmark">✓</div><div class="text-xs"><b>매일 출근 후 안전 점검 5분</b><br/><span class="opacity-70">시설·동선·소화기</span></div></div>
+                    <div class="ix-item check-row" data-persona="lee" data-item="habit-2" onclick="showPersonaDetail('lee','habit-2')" style="color:#1f5d3a"><div class="checkmark">✓</div><div class="text-xs"><b>현장 사진·기록 일지 작성</b><br/><span class="opacity-70">변화 추적이 사고를 예방</span></div></div>
+                    <div class="ix-item check-row" data-persona="lee" data-item="habit-3" onclick="showPersonaDetail('lee','habit-3')" style="color:#1f5d3a"><div class="checkmark">✓</div><div class="text-xs"><b>동료 안부 확인</b><br/><span class="opacity-70">정신적 안전도 안전</span></div></div>
+                  </div>
+                </div>
+
+                <!-- 도넛형 지표 -->
+                <div class="mt-5">
+                  <p class="text-xs font-bold tracking-wider mb-2" style="color:#1f5d3a">📊 INDICATORS <span class="ix-hint">— 클릭 👆</span></p>
+                  <div class="grid grid-cols-3 gap-2">
+                    <div class="ix-item bg-white border-2 p-2 text-center" data-persona="lee" data-item="donut-risk" onclick="showPersonaDetail('lee','donut-risk')" style="border-color:#1f5d3a;color:#1f5d3a">
+                      <div class="relative w-12 h-12 mx-auto rounded-full flex items-center justify-center" style="background:conic-gradient(#1f5d3a 0 98%, #e5e5e0 98% 100%)">
+                        <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-[10px] font-black">98</div>
+                      </div>
+                      <p class="text-[10px] mt-1 font-bold">위험 감지</p>
+                    </div>
+                    <div class="ix-item bg-white border-2 p-2 text-center" data-persona="lee" data-item="donut-care" onclick="showPersonaDetail('lee','donut-care')" style="border-color:#1f5d3a;color:#1f5d3a">
+                      <div class="relative w-12 h-12 mx-auto rounded-full flex items-center justify-center" style="background:conic-gradient(#ff8c00 0 95%, #e5e5e0 95% 100%)">
+                        <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-[10px] font-black">95</div>
+                      </div>
+                      <p class="text-[10px] mt-1 font-bold">동료 케어</p>
+                    </div>
+                    <div class="ix-item bg-white border-2 p-2 text-center" data-persona="lee" data-item="donut-record" onclick="showPersonaDetail('lee','donut-record')" style="border-color:#1f5d3a;color:#1f5d3a">
+                      <div class="relative w-12 h-12 mx-auto rounded-full flex items-center justify-center" style="background:conic-gradient(#1f5d3a 0 99%, #e5e5e0 99% 100%)">
+                        <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-[10px] font-black">99</div>
+                      </div>
+                      <p class="text-[10px] mt-1 font-bold">기록 일관성</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Detail Panel -->
+                <div class="mt-5 border-2 p-3" id="lee-detail-panel" style="border-color:#1f5d3a;background:#fffdf6">
+                  <div class="flex items-center justify-between">
+                    <p class="text-xs font-bold tracking-wider" style="color:#1f5d3a">💡 DETAIL VIEW</p>
+                    <span class="text-[10px] opacity-50 font-mono" style="color:#1f5d3a">LIVE</span>
+                  </div>
+                  <div class="detail-title text-sm font-bold mt-2 leading-tight" style="color:#1a2c20">위 항목을 클릭해보세요.</div>
+                  <div class="detail-body text-xs mt-2 leading-relaxed" style="color:#1a2c20;opacity:.8">만화 패널 · 자격 배지 · 매일의 습관 · 지표 어떤 것이든 누르면, 자세한 설명이 여기에 표시됩니다.</div>
+                </div>
+
+                <div class="mt-5 flex">
+                  <button class="border-2 px-4 py-2 font-bold text-sm" style="border-color:#1f5d3a;background:#fff;color:#1f5d3a;box-shadow:4px 4px 0 0 #ff8c00">
+                    ☎️ 안전 이슈, 함께 봅니다
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Brief -->
+        <div class="lg:col-span-2 space-y-4">
+          <div class="brut p-4 bg-mint">
+            <div class="chip chip-dark">🎨 디자인 톤</div>
+            <p class="text-sm mt-2"><b>체크리스트 그린</b><br/>안전 그린 · 세이프티 오렌지 · 크림</p>
+          </div>
+          <div class="brut p-4 bg-chalk">
+            <div class="chip">💬 이안전의 Gemini 프롬프트</div>
+            <p class="text-xs mt-2 leading-relaxed">
+              "안전관리 직무야. <b>체크리스트 느낌</b>이 났으면 해.
+              그린 톤에 세이프티 오렌지 포인트.
+              '매일의 습관' 형식 카드를 넣어줘."
+            </p>
+          </div>
+          <div class="brut p-4 bg-lemon">
+            <div class="chip">✨ 특징</div>
+            <p class="text-sm mt-2">체크 표시 모티프, 안전 색상, 일상의 약속을 강조.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       19 — PERSONA 3: 박혁신 (Brutalist Electric)
+       ========================================================= -->
+  <section class="slide" data-popup="true" data-title="⚡ 박혁신 · 브루탈리스트 일렉트릭">
+    <div class="slide-inner">
+      <div class="flex items-center gap-3 mb-3 flex-wrap">
+        <button onclick="goTo(15)" class="chip hover:bg-lemon cursor-pointer flex-shrink-0">← 목록으로</button>
+        <span class="chip">EXAMPLE 3 / 4</span>
+        <span class="chip chip-lemon">⚡ 박혁신 · 디지털혁신</span>
+      </div>
+      <h2 class="text-2xl sm:text-4xl font-black tracking-tight mt-2">브루탈리스트 일렉트릭 — 활기·실험</h2>
+
+      <div class="mt-6 grid lg:grid-cols-5 gap-5">
+        <div class="lg:col-span-3">
+          <div class="browser">
+            <div class="browser-bar">
+              <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+              <span class="ml-2">park-hyukshin.kpetro.page</span>
+            </div>
+            <div class="pf-bru p-5 sm:p-7">
+              <div class="flex items-center justify-between">
+                <span class="blk px-2 py-1 text-xs font-black">⚡ INNOVATION SQUAD</span>
+                <span class="stamp orng px-2 py-1 text-xs font-black">2026</span>
+              </div>
+
+              <div class="grid grid-cols-3 gap-3 mt-5 items-start">
+                <div class="col-span-2">
+                  <h3 class="text-2xl sm:text-4xl font-black leading-none">
+                    "기존 방식,<br/><span class="underbar">의심해보셨어요?</span>"
+                  </h3>
+                  <p class="text-sm mt-3 font-bold">박혁신 · 디지털혁신</p>
+                </div>
+                <!-- ENTP Symbol -->
+                <div class="crd text-center">
+                  <div class="text-4xl">🪲</div>
+                  <p class="text-[10px] font-black mt-1">ENTP</p>
+                  <p class="text-[9px]">디버거</p>
+                </div>
+              </div>
+
+              <!-- BEFORE / AFTER 프로세스 -->
+              <div class="crd mt-4">
+                <p class="text-xs font-mono opacity-60">🔧 MY IMPACT — BEFORE / AFTER <span class="ix-hint">— 클릭 👆</span></p>
+                <div class="mt-3 grid grid-cols-2 gap-2 text-xs">
+                  <div class="ix-item border-2 border-ink p-2 bg-zinc-100" data-persona="park" data-item="before" onclick="showPersonaDetail('park','before')">
+                    <p class="text-[10px] font-mono font-bold">BEFORE</p>
+                    <p class="font-black text-2xl mt-1">100<span class="text-xs">시간</span></p>
+                    <p class="text-[10px] mt-1">엑셀 수기 정리</p>
+                  </div>
+                  <div class="ix-item border-2 border-ink p-2 orng" data-persona="park" data-item="after" onclick="showPersonaDetail('park','after')">
+                    <p class="text-[10px] font-mono font-bold">AFTER</p>
+                    <p class="font-black text-2xl mt-1">10<span class="text-xs">시간</span></p>
+                    <p class="text-[10px] mt-1">AI 자동화 도입</p>
+                  </div>
+                </div>
+                <div class="mt-2 flex items-center gap-1 text-[10px] font-mono font-bold">
+                  <span>저장된 90시간</span>
+                  <div class="flex-1 h-2 bg-zinc-200 border-2 border-ink relative">
+                    <div class="absolute inset-y-0 left-0 h-full bg-ink" style="width:90%"></div>
+                  </div>
+                  <span class="orng px-1.5">+90%</span>
+                </div>
+              </div>
+
+              <!-- Tool Stack -->
+              <div class="crd mt-3">
+                <p class="text-xs font-mono opacity-60">🛠 TOOL STACK <span class="ix-hint">— 클릭 👆</span></p>
+                <div class="mt-2 flex flex-wrap gap-1">
+                  <span class="ix-item border-2 border-ink px-2 py-0.5 text-[10px] font-mono font-bold" data-persona="park" data-item="tool-python" onclick="showPersonaDetail('park','tool-python')">Python</span>
+                  <span class="ix-item border-2 border-ink px-2 py-0.5 text-[10px] font-mono font-bold bg-ink text-white" data-persona="park" data-item="tool-gemini" onclick="showPersonaDetail('park','tool-gemini')">Gemini API</span>
+                  <span class="ix-item border-2 border-ink px-2 py-0.5 text-[10px] font-mono font-bold" data-persona="park" data-item="tool-powerbi" onclick="showPersonaDetail('park','tool-powerbi')">Power BI</span>
+                  <span class="ix-item border-2 border-ink px-2 py-0.5 text-[10px] font-mono font-bold" data-persona="park" data-item="tool-figma" onclick="showPersonaDetail('park','tool-figma')">Figma</span>
+                  <span class="ix-item border-2 border-ink px-2 py-0.5 text-[10px] font-mono font-bold" data-persona="park" data-item="tool-n8n" onclick="showPersonaDetail('park','tool-n8n')">n8n</span>
+                  <span class="ix-item border-2 border-ink px-2 py-0.5 text-[10px] font-mono font-bold" data-persona="park" data-item="tool-notion" onclick="showPersonaDetail('park','tool-notion')">Notion</span>
+                </div>
+              </div>
+
+              <!-- 3가지 분야 -->
+              <div class="mt-3">
+                <p class="text-xs font-mono opacity-60 mb-2 px-1">🎯 MY FOCUS <span class="ix-hint">— 클릭 👆</span></p>
+                <div class="grid grid-cols-3 gap-2">
+                  <div class="ix-item crd" data-persona="park" data-item="focus-1" onclick="showPersonaDetail('park','focus-1')"><p class="text-xs font-mono opacity-60">01</p><p class="font-black text-sm">자동화</p></div>
+                  <div class="ix-item crd orng" data-persona="park" data-item="focus-2" onclick="showPersonaDetail('park','focus-2')"><p class="text-xs font-mono opacity-80">02</p><p class="font-black text-sm">데이터<br/>시각화</p></div>
+                  <div class="ix-item crd" data-persona="park" data-item="focus-3" onclick="showPersonaDetail('park','focus-3')"><p class="text-xs font-mono opacity-60">03</p><p class="font-black text-sm">프로세스<br/>개선</p></div>
+                </div>
+              </div>
+
+              <!-- 미션 -->
+              <div class="crd mt-3 blk">
+                <p class="text-xs font-mono opacity-60">MISSION</p>
+                <p class="text-sm mt-1 leading-relaxed">
+                  반복 업무 <b class="orng px-1">100시간</b>을, AI와 자동화로 <b class="orng px-1">10시간</b>으로.<br/>
+                  그 <b>90시간</b>을, 사람만 할 수 있는 일에 씁니다.
+                </p>
+              </div>
+
+              <!-- Career Path -->
+              <div class="mt-3">
+                <p class="text-xs font-mono opacity-60 mb-2 px-1">📅 ROADMAP <span class="ix-hint">— 클릭 👆</span></p>
+                <div class="grid grid-cols-3 gap-2">
+                  <div class="ix-item crd" data-persona="park" data-item="career-1" onclick="showPersonaDetail('park','career-1')"><p class="text-xs font-mono opacity-60">1Y</p><p class="font-black text-sm">사내 자동화<br/>프로젝트 1건</p></div>
+                  <div class="ix-item crd" data-persona="park" data-item="career-3" onclick="showPersonaDetail('park','career-3')"><p class="text-xs font-mono opacity-60">3Y</p><p class="font-black text-sm">전사 도구<br/>도입 리드</p></div>
+                  <div class="ix-item crd" data-persona="park" data-item="career-5" onclick="showPersonaDetail('park','career-5')"><p class="text-xs font-mono opacity-60">5Y</p><p class="font-black text-sm">디지털 전환<br/>총괄</p></div>
+                </div>
+              </div>
+
+              <!-- Detail Panel -->
+              <div class="crd mt-3" id="park-detail-panel">
+                <div class="flex items-center justify-between">
+                  <p class="text-xs font-mono opacity-60">💡 DETAIL VIEW</p>
+                  <span class="text-[10px] opacity-50 font-mono orng px-1.5">LIVE</span>
+                </div>
+                <div class="detail-title text-sm font-black mt-2 leading-tight">위 항목을 클릭해보세요.</div>
+                <div class="detail-body text-xs mt-2 leading-relaxed opacity-80">Before/After · 툴스택 · 포커스 · 로드맵 어떤 칩이든 누르면, 자세한 설명이 여기에 표시됩니다.</div>
+              </div>
+
+              <button class="blk mt-5 px-4 py-2 font-black text-sm" style="box-shadow:5px 5px 0 0 #ff5b1f">
+                💬 LET'S BREAK STUFF →
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-2 space-y-4">
+          <div class="brut p-4 bg-lemon">
+            <div class="chip chip-dark">🎨 디자인 톤</div>
+            <p class="text-sm mt-2"><b>브루탈리스트 일렉트릭</b><br/>레몬 · 일렉트릭 오렌지 · 잉크 블랙</p>
+          </div>
+          <div class="brut p-4 bg-chalk">
+            <div class="chip">💬 박혁신의 Gemini 프롬프트</div>
+            <p class="text-xs mt-2 leading-relaxed">
+              "<b>네오 브루탈리즘</b>으로 가자.
+              레몬 옐로우 배경에 굵은 검은 테두리, 오렌지 포인트.
+              <b>대담한 헤드라인</b>으로 임팩트 있게."
+            </p>
+          </div>
+          <div class="brut p-4 bg-rose">
+            <div class="chip">✨ 특징</div>
+            <p class="text-sm mt-2">초대형 타이포, 비대칭 배치, 도발적인 카피.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       20 — PERSONA 4: 최환경 (Sage Earth Soft)
+       ========================================================= -->
+  <section class="slide" data-popup="true" data-title="🌱 최환경 · 세이지 어스">
+    <div class="slide-inner">
+      <div class="flex items-center gap-3 mb-3 flex-wrap">
+        <button onclick="goTo(15)" class="chip hover:bg-lemon cursor-pointer flex-shrink-0">← 목록으로</button>
+        <span class="chip">EXAMPLE 4 / 4</span>
+        <span class="chip chip-sky">🌱 최환경 · ESG · 환경</span>
+      </div>
+      <h2 class="text-2xl sm:text-4xl font-black tracking-tight mt-2">세이지 어스 — 차분·지속가능</h2>
+
+      <div class="mt-6 grid lg:grid-cols-5 gap-5">
+        <div class="lg:col-span-3">
+          <div class="browser">
+            <div class="browser-bar">
+              <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+              <span class="ml-2">choi-hwangyeong.kpetro.page</span>
+            </div>
+            <div class="pf-sage leaf-bg p-5 sm:p-7">
+              <div class="flex items-center justify-between">
+                <span class="pill">🌿 ESG · CARE</span>
+                <span class="text-xs opacity-60 font-mono">since 2026</span>
+              </div>
+
+              <div class="grid grid-cols-3 gap-3 mt-4 items-start">
+                <div class="col-span-2">
+                  <h3 class="text-xl sm:text-2xl font-bold leading-snug" style="color:#2b3a26">
+                    오늘의 에너지를,<br/><span style="color:#3f6133">내일의 환경</span>과<br/>잇습니다.
+                  </h3>
+                  <p class="text-sm mt-2 opacity-80">최환경 · ESG·환경</p>
+                </div>
+                <!-- INFJ Symbol -->
+                <div class="card text-center">
+                  <div class="text-3xl">🌿</div>
+                  <p class="text-[10px] font-black mt-1">INFJ</p>
+                  <p class="text-[9px]">옹호자</p>
+                </div>
+              </div>
+
+              <!-- 4컷 성장 만화 -->
+              <div class="card mt-4">
+                <p class="pill">📖 MY ESG STORY <span class="ix-hint" style="color:#3f6133">— 클릭 👆</span></p>
+                <div class="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+                  <div class="ix-item aspect-square rounded-lg border-2 flex flex-col items-center justify-center p-1 text-center" data-persona="choi" data-item="story-1" onclick="showPersonaDetail('choi','story-1')" style="border-color:#88a378;background:#fffdf6;color:#3f6133">
+                    <div class="text-2xl sm:text-xl">🌳</div>
+                    <p class="text-[10px] sm:text-[8px] font-bold mt-1" style="color:#2b3a26">자연 속<br/>어린 시절</p>
+                  </div>
+                  <div class="ix-item aspect-square rounded-lg border-2 flex flex-col items-center justify-center p-1 text-center" data-persona="choi" data-item="story-2" onclick="showPersonaDetail('choi','story-2')" style="border-color:#88a378;background:#fffdf6;color:#3f6133">
+                    <div class="text-2xl sm:text-xl">🌡️</div>
+                    <p class="text-[10px] sm:text-[8px] font-bold mt-1" style="color:#2b3a26">기후위기<br/>각성</p>
+                  </div>
+                  <div class="ix-item aspect-square rounded-lg border-2 flex flex-col items-center justify-center p-1 text-center" data-persona="choi" data-item="story-3" onclick="showPersonaDetail('choi','story-3')" style="border-color:#88a378;background:#fffdf6;color:#3f6133">
+                    <div class="text-2xl sm:text-xl">📚</div>
+                    <p class="text-[10px] sm:text-[8px] font-bold mt-1" style="color:#2b3a26">환경공학<br/>전공</p>
+                  </div>
+                  <div class="ix-item aspect-square rounded-lg border-2 flex flex-col items-center justify-center p-1 text-center text-white" data-persona="choi" data-item="story-4" onclick="showPersonaDetail('choi','story-4')" style="border-color:#3f6133;background:#3f6133">
+                    <div class="text-2xl sm:text-xl">🌱</div>
+                    <p class="text-[10px] sm:text-[8px] font-bold mt-1">K-Petro<br/>ESG 시작</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 도넛 통계 -->
+              <div class="mt-3">
+                <p class="pill ml-1">📊 INDICATORS <span class="ix-hint" style="color:#3f6133">— 클릭 👆</span></p>
+                <div class="grid grid-cols-3 gap-2 mt-2">
+                  <div class="ix-item card text-center" data-persona="choi" data-item="donut-carbon" onclick="showPersonaDetail('choi','donut-carbon')" style="color:#3f6133">
+                    <div class="relative w-14 h-14 mx-auto rounded-full flex items-center justify-center" style="background:conic-gradient(#3f6133 0 87%, #dde9c9 87% 100%)">
+                      <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-xs font-black">87%</div>
+                    </div>
+                    <p class="text-[10px] mt-1.5 font-bold" style="color:#2b3a26">탄소 절감<br/>관심도</p>
+                  </div>
+                  <div class="ix-item card text-center" data-persona="choi" data-item="donut-policy" onclick="showPersonaDetail('choi','donut-policy')" style="color:#3f6133">
+                    <div class="relative w-14 h-14 mx-auto rounded-full flex items-center justify-center" style="background:conic-gradient(#88a378 0 92%, #dde9c9 92% 100%)">
+                      <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-xs font-black">92%</div>
+                    </div>
+                    <p class="text-[10px] mt-1.5 font-bold" style="color:#2b3a26">정책 이해도</p>
+                  </div>
+                  <div class="ix-item card text-center" data-persona="choi" data-item="donut-comm" onclick="showPersonaDetail('choi','donut-comm')" style="color:#3f6133">
+                    <div class="relative w-14 h-14 mx-auto rounded-full flex items-center justify-center" style="background:conic-gradient(#3f6133 0 95%, #dde9c9 95% 100%)">
+                      <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-xs font-black">95%</div>
+                    </div>
+                    <p class="text-[10px] mt-1.5 font-bold" style="color:#2b3a26">공감 소통</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Values & Focus -->
+              <div class="grid sm:grid-cols-2 gap-3 mt-3">
+                <div class="card">
+                  <p class="pill">VALUES <span class="ix-hint" style="color:#3f6133">— 클릭 👆</span></p>
+                  <ul class="text-xs mt-3 space-y-1.5" style="color:#2b3a26">
+                    <li class="ix-item px-1 py-0.5" data-persona="choi" data-item="value-1" onclick="showPersonaDetail('choi','value-1')" style="color:#3f6133"><span style="color:#2b3a26">🌍 환경을 우선에 두는 의사결정</span></li>
+                    <li class="ix-item px-1 py-0.5" data-persona="choi" data-item="value-2" onclick="showPersonaDetail('choi','value-2')" style="color:#3f6133"><span style="color:#2b3a26">📚 데이터로 말하는 환경정책</span></li>
+                    <li class="ix-item px-1 py-0.5" data-persona="choi" data-item="value-3" onclick="showPersonaDetail('choi','value-3')" style="color:#3f6133"><span style="color:#2b3a26">🤝 이해관계자와 함께 듣기</span></li>
+                  </ul>
+                </div>
+                <div class="card">
+                  <p class="pill">FOCUS <span class="ix-hint" style="color:#3f6133">— 클릭 👆</span></p>
+                  <ul class="text-xs mt-3 space-y-1.5" style="color:#2b3a26">
+                    <li class="ix-item px-1 py-0.5" data-persona="choi" data-item="focus-1" onclick="showPersonaDetail('choi','focus-1')" style="color:#3f6133"><span style="color:#2b3a26">⛽ 친환경 연료 동향</span></li>
+                    <li class="ix-item px-1 py-0.5" data-persona="choi" data-item="focus-2" onclick="showPersonaDetail('choi','focus-2')" style="color:#3f6133"><span style="color:#2b3a26">📉 탄소 배출 모니터링</span></li>
+                    <li class="ix-item px-1 py-0.5" data-persona="choi" data-item="focus-3" onclick="showPersonaDetail('choi','focus-3')" style="color:#3f6133"><span style="color:#2b3a26">📝 지속가능성 보고</span></li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- ROADMAP visual timeline -->
+              <div class="card mt-3">
+                <p class="pill">ROADMAP <span class="ix-hint" style="color:#3f6133">— 클릭 👆</span></p>
+                <div class="mt-3 relative">
+                  <div class="absolute top-3 left-2 right-2 h-0.5" style="background:#88a378"></div>
+                  <div class="grid grid-cols-3 gap-2 relative" style="color:#2b3a26">
+                    <div class="ix-item text-center" data-persona="choi" data-item="roadmap-1" onclick="showPersonaDetail('choi','roadmap-1')" style="color:#3f6133">
+                      <div class="w-6 h-6 rounded-full mx-auto border-2 flex items-center justify-center text-[10px] font-black" style="border-color:#3f6133;background:#fffdf6">1Y</div>
+                      <p class="text-[10px] font-bold mt-1.5" style="color:#2b3a26">ESG 기초<br/>자격 취득</p>
+                    </div>
+                    <div class="ix-item text-center" data-persona="choi" data-item="roadmap-3" onclick="showPersonaDetail('choi','roadmap-3')" style="color:#3f6133">
+                      <div class="w-6 h-6 rounded-full mx-auto border-2 flex items-center justify-center text-[10px] font-black" style="border-color:#3f6133;background:#fffdf6">3Y</div>
+                      <p class="text-[10px] font-bold mt-1.5" style="color:#2b3a26">친환경 정책<br/>분석가</p>
+                    </div>
+                    <div class="ix-item text-center" data-persona="choi" data-item="roadmap-5" onclick="showPersonaDetail('choi','roadmap-5')" style="color:#3f6133">
+                      <div class="w-6 h-6 rounded-full mx-auto border-2 flex items-center justify-center text-[10px] font-black text-white" style="border-color:#3f6133;background:#3f6133">5Y</div>
+                      <p class="text-[10px] font-bold mt-1.5" style="color:#2b3a26">지속가능<br/>전략 파트너</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Reading -->
+              <div class="ix-item card mt-3 flex items-center justify-between gap-3" data-persona="choi" data-item="reading" onclick="showPersonaDetail('choi','reading')" style="color:#3f6133">
+                <div class="flex-1">
+                  <p class="pill">READING NOW <span class="ix-hint" style="color:#3f6133">— 클릭 👆</span></p>
+                  <p class="text-xs mt-2" style="color:#2b3a26"><i>『지속가능성을 위한<br/>작은 결정들』</i></p>
+                </div>
+                <button class="px-3 py-2 text-xs font-bold rounded-full flex-shrink-0" style="background:#3f6133;color:#fffdf6" onclick="event.stopPropagation()">
+                  🌱 함께<br/>이야기 →
+                </button>
+              </div>
+
+              <!-- Detail Panel -->
+              <div class="card mt-3" id="choi-detail-panel" style="background:#fffdf6">
+                <div class="flex items-center justify-between">
+                  <p class="pill">💡 DETAIL VIEW</p>
+                  <span class="text-[10px] opacity-50 font-mono" style="color:#3f6133">LIVE</span>
+                </div>
+                <div class="detail-title text-sm font-bold mt-2 leading-tight" style="color:#2b3a26">위 항목을 클릭해보세요.</div>
+                <div class="detail-body text-xs mt-2 leading-relaxed" style="color:#2b3a26;opacity:.8">만화 패널 · 도넛 차트 · 가치관 · 관심 분야 · 로드맵 · 책 어떤 것이든 누르면, 자세한 설명이 여기에 표시됩니다.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-2 space-y-4">
+          <div class="brut p-4 bg-mint">
+            <div class="chip chip-dark">🎨 디자인 톤</div>
+            <p class="text-sm mt-2"><b>세이지 어스 소프트</b><br/>세이지 · 어스 브라운 · 크림 · 둥근 모서리</p>
+          </div>
+          <div class="brut p-4 bg-chalk">
+            <div class="chip">💬 최환경의 Gemini 프롬프트</div>
+            <p class="text-xs mt-2 leading-relaxed">
+              "ESG 분야야. <b>차분하고 따뜻한 자연 톤</b>으로 만들어줘.
+              세이지·어스·크림 컬러, 둥근 모서리, 이모지 살짝.
+              가치관·관심 분야·로드맵 세 영역을 보여줘."
+            </p>
+          </div>
+          <div class="brut p-4 bg-lemon">
+            <div class="chip">✨ 특징</div>
+            <p class="text-sm mt-2">부드러운 곡선, 자연 색상, 책 읽기 같은 톤.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       21 — YOUR TURN
+       ========================================================= -->
+  <section class="slide" data-title="너의 포트폴리오는?">
+    <div class="slide-inner">
+      <div class="flex-1 flex flex-col justify-center relative dot-bg">
+        <div class="absolute -left-10 top-10 w-44 h-44 bg-violet border-2 border-ink rotate-12 hidden md:block"></div>
+        <div class="absolute right-12 bottom-32 w-28 h-28 bg-accent border-2 border-ink -rotate-6 hidden md:block"></div>
+
+        <div class="relative">
+          <span class="chip chip-accent">YOUR TURN</span>
+          <h2 class="text-4xl sm:text-7xl font-black tracking-tight mt-4 leading-none">
+            그래서,<br/>
+            <span class="underbar">당신의 포트폴리오</span>는<br/>
+            어떤 색깔일까요?
+          </h2>
+          <p class="mt-8 text-lg text-zinc-700 max-w-xl">
+            김석유처럼 진중할 수도, 박혁신처럼 도발적일 수도, 최환경처럼 부드러울 수도.<br/><br/>
+            <b>정답은 없습니다.</b> Gemini에게 추천 받고, <b>당신만의 한 장</b>을 만드세요.
+          </p>
+
+          <div class="mt-10 brut p-5 bg-chalk max-w-xl">
+            <div class="chip chip-dark">🎯 다음 행동</div>
+            <ol class="mt-3 list-decimal pl-5 text-sm space-y-1">
+              <li>Gemini Advanced 켜기</li>
+              <li>"내 포트폴리오에 뭘 담을지 추천해줘"부터 시작</li>
+              <li>마음에 드는 디자인 톤 1개 골라 코드 받기</li>
+              <li>파일로 저장, 브라우저에서 확인</li>
+              <li>원하는 방식으로 공유</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       22 — Q&A (꿀팁) + 마무리
+       ========================================================= -->
+  <section class="slide" data-title="⚠️ 꿀팁 Q&A · 마무리">
+    <div class="slide-inner">
+      <div class="flex items-baseline gap-3 mb-2">
+        <span class="tag-num">16</span>
+        <span class="chip chip-rose">⚠️ 미션 수행 중 꿀팁</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-black tracking-tight mt-2">막힐 때 다시 펴 보세요.</h2>
+
+      <div class="mt-6 grid md:grid-cols-2 lg:grid-cols-3 gap-4 content-start">
+        <div class="brut p-4">
+          <div class="text-2xl">🛠️</div>
+          <h3 class="font-black mt-1">글자가 화면 밖으로 나가요</h3>
+          <div class="brut-sm p-2 mt-2 bg-chalk text-xs font-mono">
+            "모바일에서도 화면이 안 깨지게 <b>반응형 코드</b>를 더 꼼꼼하게 짜줘"
+          </div>
+        </div>
+        <div class="brut p-4 bg-rose">
+          <div class="text-2xl">🎨</div>
+          <h3 class="font-black mt-1">더 화려하게 만들고 싶어요</h3>
+          <div class="brut-sm p-2 mt-2 bg-chalk text-xs font-mono">
+            "배경에 <b>파스텔톤 그라데이션</b>, 카드마다 <b>그림자</b> 더 강하게"
+          </div>
+        </div>
+        <div class="brut p-4 bg-mint">
+          <div class="text-2xl">🌐</div>
+          <h3 class="font-black mt-1">어떻게 남에게 보여주죠</h3>
+          <p class="text-sm mt-2"><span class="kbd">app.netlify.com/drop</span>에 폴더 드래그하면 즉시 URL 발급.</p>
+        </div>
+        <div class="brut p-4">
+          <div class="text-2xl">🔤</div>
+          <h3 class="font-black mt-1">한글이 깨져요</h3>
+          <p class="text-sm mt-2">메모장 저장 시 <b>UTF-8</b> 인코딩 선택. 또는 VS Code 사용.</p>
+        </div>
+        <div class="brut p-4 bg-sky">
+          <div class="text-2xl">📝</div>
+          <h3 class="font-black mt-1">결과가 마음에 안 들어요</h3>
+          <div class="brut-sm p-2 mt-2 bg-chalk text-xs font-mono">
+            "위 답변에서 <b>두 번째 카드만</b> 더 부드럽게 다시 써줘"
+          </div>
+        </div>
+        <div class="brut p-4 bg-violet">
+          <div class="text-2xl">🤖</div>
+          <h3 class="font-black mt-1">코드가 중간에 끊겨요</h3>
+          <div class="brut-sm p-2 mt-2 bg-chalk text-xs font-mono">
+            "끊긴 부분부터 <b>이어서 마저</b> 작성해줘"
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8 brut-lg p-6 bg-lemon">
+        <div class="chip chip-dark">💛 마지막 한 마디</div>
+        <p class="mt-3 text-xl sm:text-2xl font-black leading-snug">
+          "오늘 만든 이 한 페이지가,<br/>1년 뒤 다시 펼쳐볼 <span class="underbar">첫 다짐</span>이 됩니다."
+        </p>
+        <p class="mt-3 text-sm text-zinc-700">
+          지금의 설렘과 다짐을 잊지 말고, 매일 한 걸음씩.<br/>
+          <b>K-Petro와 함께할 당신의 멋진 여정을, 진심으로 응원합니다.</b> 🚀
+        </p>
+      </div>
+
+      <div class="mt-8 flex flex-wrap items-center gap-3">
+        <button onclick="goTo(0)" class="brut-sm px-4 py-2 font-bold hover:bg-lemon">↺ 처음부터 다시 보기</button>
+        <button onclick="goTo(15)" class="brut-sm px-4 py-2 font-bold hover:bg-mint">🎨 4명의 예시 다시 보기</button>
+        <button onclick="window.print()" class="brut-sm px-4 py-2 font-bold hover:bg-sky">🖨 가이드 인쇄</button>
+        <span class="text-xs text-zinc-500 ml-2">© 2026 한국석유관리원 · APX</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============== BOTTOM NAV ============== -->
+<footer id="botbar">
+  <div id="botbar-main" class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
+    <button id="prevBtn" class="navbtn">← 이전</button>
+    <div class="hidden sm:flex items-center gap-2 text-xs">
+      <span class="kbd" style="background:#fffdf7;color:#0b0b0c">←</span>
+      <span>이전</span>
+      <span class="kbd" style="background:#fffdf7;color:#0b0b0c">→</span>
+      <span>다음</span>
+      <span class="opacity-60">·</span>
+      <span class="kbd" style="background:#fffdf7;color:#0b0b0c">ESC</span>
+      <span>목차</span>
+    </div>
+    <button id="nextBtn" class="navbtn primary">다음 →</button>
+  </div>
+  <div id="botbar-popup" class="max-w-6xl mx-auto px-4 sm:px-6 py-3 hidden items-center justify-center gap-4">
+    <button id="backBtn" class="navbtn primary" style="font-size:.95rem; padding:.7rem 1.6rem">← 인스피레이션 목록으로 돌아가기</button>
+  </div>
+</footer>
+
+<!-- ============== TOC OVERLAY ============== -->
+<div id="toc">
+  <div class="panel" role="dialog" aria-modal="true">
+    <div class="flex items-center justify-between">
+      <h3 class="font-black text-xl">목차</h3>
+      <button id="tocClose" class="brut-sm px-3 py-1 font-bold text-sm hover:bg-lemon">닫기 ✕</button>
+    </div>
+    <div id="tocList" class="mt-4 max-h-[70vh] overflow-y-auto"></div>
+  </div>
+</div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total  = slides.length;
+  let current  = 0;
+
+  const $counter    = document.getElementById('counter');
+  const $progress   = document.getElementById('progressfill');
+  const $prevBtn    = document.getElementById('prevBtn');
+  const $nextBtn    = document.getElementById('nextBtn');
+  const $backBtn    = document.getElementById('backBtn');
+  const $botMain    = document.getElementById('botbar-main');
+  const $botPopup   = document.getElementById('botbar-popup');
+  const $tocBtn     = document.getElementById('tocBtn');
+  const $tocClose   = document.getElementById('tocClose');
+  const $toc        = document.getElementById('toc');
+  const $tocList    = document.getElementById('tocList');
+
+  // Slides that are "popups" — accessed only via the inspiration grid, skipped in main flow
+  const POPUP_INDEXES = [];
+  slides.forEach((s, i) => { if (s.dataset.popup === 'true') POPUP_INDEXES.push(i); });
+  const POPUP_SET = new Set(POPUP_INDEXES);
+  const isPopup = (i) => POPUP_SET.has(i);
+  // Slide index to return to when leaving a popup (the inspiration intro)
+  const INSPIRATION_INDEX = POPUP_INDEXES.length ? POPUP_INDEXES[0] - 1 : 0;
+
+  // Main track = slides excluding popups, in order
+  const mainOrder = [];
+  slides.forEach((_, i) => { if (!isPopup(i)) mainOrder.push(i); });
+  const mainPos = (i) => mainOrder.indexOf(i);
+
+  function pad(n){ return n < 10 ? '0'+n : ''+n; }
+
+  function render() {
+    slides.forEach((s, i) => {
+      s.classList.remove('is-active','is-prev');
+      if (i === current) s.classList.add('is-active');
+      else if (i < current) s.classList.add('is-prev');
+    });
+
+    if (isPopup(current)) {
+      // Popup mode — show only back button, hide normal nav
+      $botMain.classList.add('hidden');
+      $botMain.classList.remove('flex');
+      $botPopup.classList.remove('hidden');
+      $botPopup.classList.add('flex');
+      $counter.textContent = slides[current].dataset.title || '';
+      // Freeze progress at inspiration intro position
+      const inspPos = mainPos(INSPIRATION_INDEX);
+      $progress.style.width = `${((inspPos+1) / mainOrder.length) * 100}%`;
+    } else {
+      $botMain.classList.remove('hidden');
+      $botMain.classList.add('flex');
+      $botPopup.classList.add('hidden');
+      $botPopup.classList.remove('flex');
+      const pos = mainPos(current);
+      $counter.textContent = `${pad(pos+1)} / ${pad(mainOrder.length)}`;
+      $progress.style.width = `${((pos+1) / mainOrder.length) * 100}%`;
+      $prevBtn.disabled = pos === 0;
+      $nextBtn.textContent = pos === mainOrder.length-1 ? '끝 ✓' : '다음 →';
+      if (pos === mainOrder.length-1) $nextBtn.classList.remove('primary');
+      else $nextBtn.classList.add('primary');
+    }
+
+    history.replaceState(null,'',`#${current+1}`);
+    const active = slides[current];
+    if (active) active.scrollTop = 0;
+  }
+
+  function goTo(i){
+    current = Math.max(0, Math.min(total-1, i));
+    render();
+  }
+
+  function next(){
+    if (isPopup(current)) { goTo(INSPIRATION_INDEX); return; }
+    const pos = mainPos(current);
+    if (pos < mainOrder.length-1) goTo(mainOrder[pos+1]);
+  }
+  function prev(){
+    if (isPopup(current)) { goTo(INSPIRATION_INDEX); return; }
+    const pos = mainPos(current);
+    if (pos > 0) goTo(mainOrder[pos-1]);
+  }
+
+  $nextBtn.addEventListener('click', next);
+  $prevBtn.addEventListener('click', prev);
+  if ($backBtn) $backBtn.addEventListener('click', () => goTo(INSPIRATION_INDEX));
+  window.goTo = goTo;
+
+  // ====== Interactive Portfolio Detail Database ======
+  const PERSONA_DETAILS = {
+    kim: {
+      'precision':     { title: '📊 정밀도 — 98', body: '측정 오차를 <b>±0.1%</b> 이하로 유지합니다. ISO 4259, KS M 2027 표준 절차를 매 검사마다 따르고, 의심스러운 결과는 <b>3회 재측정</b>합니다.' },
+      'standard':      { title: '📜 표준 준수 — 95', body: 'KS M · ASTM · ISO 등 국내외 석유제품 시험 표준을 익히고, 절차 매뉴얼을 <b>분기마다 업데이트</b>합니다.' },
+      'records':       { title: '📝 기록 일관성 — 92', body: '모든 검사 결과를 디지털 시트로 표준화하고, <b>측정 조건·시간·장비</b>를 함께 기록합니다.' },
+      'detail':        { title: '🔍 꼼꼼함 — 99', body: '사소한 신호도 놓치지 않습니다. 동일 시료를 <b>2명 이상이 교차검증</b>하는 습관을 가지고 있습니다.' },
+      'badge-history': { title: '🏅 한국사 1급', body: '석유산업의 한국 발전사를 이해하기 위한 기초 인문 소양으로 취득.' },
+      'badge-adsp':    { title: '🏅 ADsP — 데이터 분석 준전문가', body: '검사 데이터를 <b>패턴·이상치</b> 관점에서 해석하기 위한 기초 분석 자격.' },
+      'badge-quality': { title: '🏅 품질관리기사 (준비 중)', body: '2027년 1차 응시 목표. 품질 통계·신뢰성 공학·생산시스템을 학습 중.' },
+      '2026':          { title: '📅 2026 — 기본 검사 자격 취득', body: '석유제품 시험분석 OJT 6주 완료, <b>품질관리기사 필기</b> 통과를 1년차 목표로.' },
+      '2028':          { title: '📅 2028 — 분석 분야 전문가', body: '특수 시료(바이오연료·합성연료) 분석 절차 마스터, 사내 검사 매뉴얼 <b>2건 개정 제안</b>.' },
+      '2031':          { title: '📅 2031 — 품질 감독관', body: '검사팀 리드, 신입 검사관 멘토링, <b>해외 표준화 회의</b> 참여로 K-Petro 표준의 국제화 기여.' },
+      'quote':         { title: '📖 좋아하는 인용', body: '"측정할 수 없으면 관리할 수 없다." — 피터 드러커.<br/>검사관이 매일 다시 새기는 한 문장입니다.' }
+    },
+    lee: {
+      'story-1':         { title: '🧒 어릴 적 — 화재 대피 훈련', body: '초등학교 화재 대피 훈련 후, "왜 누구는 다치고 누구는 안 다칠까"라는 질문에서 시작.' },
+      'story-2':         { title: '📚 대학 — 안전공학 전공', body: '인간공학·산업위생·시스템 안전 4년 학습. 졸업 논문 주제는 <b>"주유소 누유 감지 IoT"</b>.' },
+      'story-3':         { title: '🏗️ 인턴 — 현장 6개월', body: '대형 석유 물류센터 인턴. <b>안전 점검 일지 1,200건</b>을 수기로 정리하며 사고 패턴을 본 경험.' },
+      'story-4':         { title: '🦺 K-Petro — 안전관리 시작', body: '"기술이 막아주지 못하는 것은 결국 사람의 습관"이라는 신념으로 입사.' },
+      'badge-industrial':{ title: '🥇 산업안전기사', body: '국가기술자격. 산업현장의 재해 예방·관리 체계를 다룬다.' },
+      'badge-fire':      { title: '🚒 소방안전관리자 1급', body: '주유소·물류센터의 화재 위험 대응 자격.' },
+      'badge-chem':      { title: '⚗️ 위험물산업기사', body: '석유류 등 위험물의 저장·취급·운반 관리 전문 자격.' },
+      'badge-first-aid': { title: '🆘 응급처치 인증', body: '대한적십자사 BLS · CPR 정기 갱신.' },
+      'habit-1':         { title: '✅ 매일 출근 후 안전 점검 5분', body: '소화기 위치·만료일, 비상구 동선, 누유 흔적을 <b>매일 같은 순서</b>로 확인합니다.' },
+      'habit-2':         { title: '✅ 현장 사진·기록 일지 작성', body: '변화를 비교하기 위해 <b>같은 각도</b>로 매주 사진을 남기고, 일지에 기록합니다.' },
+      'habit-3':         { title: '✅ 동료 안부 확인', body: '정신적 안전도 안전. 출근 시 한 마디 인사를 빠뜨리지 않습니다.' },
+      'donut-risk':      { title: '🛡 위험 감지 — 98', body: '위험 징조를 사전에 감지하는 빈도. <b>월 평균 12건</b>의 잠재 위험을 보고합니다.' },
+      'donut-care':      { title: '🤗 동료 케어 — 95', body: '팀 분위기·정신적 안전을 살핍니다. 컨디션 변화를 빨리 알아채는 편.' },
+      'donut-record':    { title: '📝 기록 일관성 — 99', body: '안전 사고는 기록에서 시작합니다. 매일 일지를 쓰고, 분기별로 점검 패턴을 분석합니다.' }
+    },
+    park: {
+      'before':       { title: '⏱ BEFORE — 수기 100시간', body: '월말 보고서를 위해 <b>4개 시스템</b>에서 데이터를 수기로 옮기고, Excel 함수로 정리하는 데 100시간.' },
+      'after':        { title: '⚡ AFTER — 자동화 10시간', body: 'Python + Gemini API로 데이터 수집·정제·요약을 자동화. <b>한 번 클릭으로</b> 보고서 초안 생성.' },
+      'tool-python':  { title: '🐍 Python', body: '데이터 수집·정제·자동화 스크립트. pandas · requests · schedule 활용.' },
+      'tool-gemini':  { title: '✨ Gemini API', body: '문서 요약 · 이메일 초안 · 코드 생성. <b>회사 매뉴얼</b>은 RAG로 검색 가능하게.' },
+      'tool-powerbi': { title: '📊 Power BI', body: '월간 KPI 대시보드. 실시간 데이터 연결로 보고서 시간을 <b>5일 → 30분</b>.' },
+      'tool-figma':   { title: '🎨 Figma', body: '사내 디지털 도구 UI 설계. 동료들의 피드백을 1주일 안에 시안화.' },
+      'tool-n8n':     { title: '🔗 n8n', body: '노코드 자동화. Slack · Sheets · Gmail을 연결해 <b>업무 트리거</b>를 자동화.' },
+      'tool-notion':  { title: '📔 Notion', body: '팀 위키 · 자동화 프로젝트 로드맵 · 회고 모두 하나의 워크스페이스에서.' },
+      'focus-1':      { title: '⚙️ 01 · 자동화', body: '반복 업무를 찾아 1년 안에 <b>10건 이상</b> 자동화하는 것이 첫해 목표.' },
+      'focus-2':      { title: '📈 02 · 데이터 시각화', body: '숫자를 <b>이야기</b>로 바꿉니다. 의사결정자가 30초 안에 이해할 수 있는 차트로.' },
+      'focus-3':      { title: '🔄 03 · 프로세스 개선', body: '"왜 이렇게 하나요?" 라는 질문에서 시작. <b>월 1회</b> 프로세스 회고를 제안.' },
+      'career-1':     { title: '📅 1년 차', body: '사내 자동화 프로젝트 1건 완료. Power BI 대시보드 2건 구축.' },
+      'career-3':     { title: '📅 3년 차', body: '전사 표준 자동화 도구 2개 도입 리드. 사내 디지털 교육 강사.' },
+      'career-5':     { title: '📅 5년 차', body: 'K-Petro 디지털 전환 TF 총괄. <b>업무 시간 30% 절감</b> 달성.' }
+    },
+    choi: {
+      'story-1':     { title: '🌳 어린 시절 — 자연 속에서', body: '시골 외가에서 보낸 방학. 강이 마르고 나무가 베이는 모습을 매년 다르게 본 경험.' },
+      'story-2':     { title: '🌡️ 청소년기 — 기후위기 각성', body: '학교 환경 동아리 활동. 첫 발표 주제는 <b>"미세먼지와 우리 동네"</b>.' },
+      'story-3':     { title: '📚 대학 — 환경공학', body: '대기오염·신재생에너지·LCA(전과정평가) 학습. 졸업 논문은 <b>"바이오연료의 탄소 회계"</b>.' },
+      'story-4':     { title: '🌱 K-Petro — ESG 시작', body: '"에너지 산업의 한가운데서 환경을 바꾸는 일을 하고 싶다"는 결심으로 입사.' },
+      'donut-carbon':{ title: '🌍 탄소 절감 관심도 — 87', body: '주기적인 IPCC 보고서 학습 + 사내 친환경 사업 케이스 추적.' },
+      'donut-policy':{ title: '📜 정책 이해도 — 92', body: '국내외 ESG 공시 제도 (K-ESG · TCFD · CSRD · EU 택소노미)를 비교 분석.' },
+      'donut-comm':  { title: '🤝 공감 소통 — 95', body: '데이터 + 스토리텔링. 환경 데이터를 <b>이해관계자별 맞춤 메시지</b>로 전달.' },
+      'value-1':     { title: '🌍 환경 우선 의사결정', body: '단기 비용보다 <b>장기 영향</b>을 먼저 검토하는 습관.' },
+      'value-2':     { title: '📚 데이터로 말하는 정책', body: '감정이 아닌 측정으로. 모든 주장에는 출처와 숫자를 함께.' },
+      'value-3':     { title: '🤝 이해관계자와 함께 듣기', body: '환경 정책은 모두의 문제. 주민 · NGO · 산업계의 목소리를 균형 있게.' },
+      'focus-1':     { title: '⛽ 친환경 연료 동향', body: '바이오·합성연료 시장과 표준화 동향을 매월 추적.' },
+      'focus-2':     { title: '📉 탄소 배출 모니터링', body: '사업장별 Scope 1·2·3 배출량을 추적할 데이터 체계 학습 중.' },
+      'focus-3':     { title: '📝 지속가능성 보고', body: '국제 표준에 맞는 K-Petro ESG 보고서 작성에 기여.' },
+      'roadmap-1':   { title: '📅 1년 — ESG 기초 자격', body: 'ESG 전문가 자격 + 사내 친환경 사업 1건 참여.' },
+      'roadmap-3':   { title: '📅 3년 — 친환경 정책 분석가', body: '국내외 친환경 연료 표준 비교 보고서 발간. 사내 ESG 보고서 작성 리드.' },
+      'roadmap-5':   { title: '📅 5년 — 지속가능 전략 파트너', body: 'K-Petro의 2030 탄소중립 로드맵 수립 기여. 국제 ESG 컨퍼런스 발표.' },
+      'reading':     { title: '📚 지금 읽는 책', body: '『지속가능성을 위한 작은 결정들』 — 개인의 선택이 어떻게 산업의 흐름을 바꾸는지 다룬 책.' }
+    }
+  };
+
+  function showPersonaDetail(persona, item) {
+    const data = (PERSONA_DETAILS[persona] || {})[item];
+    if (!data) return;
+    const panel = document.getElementById(`${persona}-detail-panel`);
+    if (!panel) return;
+    const titleEl = panel.querySelector('.detail-title');
+    const bodyEl  = panel.querySelector('.detail-body');
+    if (titleEl) titleEl.innerHTML = data.title;
+    if (bodyEl)  bodyEl.innerHTML  = data.body;
+    document.querySelectorAll(`.ix-item[data-persona="${persona}"]`).forEach(el => el.classList.remove('ix-active'));
+    const active = document.querySelector(`.ix-item[data-persona="${persona}"][data-item="${item}"]`);
+    if (active) active.classList.add('ix-active');
+  }
+  window.showPersonaDetail = showPersonaDetail;
+
+  // Keyboard
+  document.addEventListener('keydown', (e) => {
+    if ($toc.classList.contains('is-open')) {
+      if (e.key === 'Escape') closeToc();
+      return;
+    }
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); next(); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp')                 { e.preventDefault(); prev(); }
+    else if (e.key === 'Home')                                            { e.preventDefault(); goTo(0); }
+    else if (e.key === 'End')                                             { e.preventDefault(); goTo(total-1); }
+    else if (e.key === 'Escape')                                          { openToc(); }
+  });
+
+  // Hash
+  function fromHash() {
+    const m = location.hash.match(/^#(\d+)$/);
+    if (m) {
+      const n = parseInt(m[1],10) - 1;
+      if (n >= 0 && n < total) { current = n; render(); }
+    }
+  }
+  window.addEventListener('hashchange', fromHash);
+
+  // TOC
+  function buildToc() {
+    $tocList.innerHTML = '';
+    slides.forEach((s, i) => {
+      const title = s.getAttribute('data-title') || `Slide ${i+1}`;
+      const item  = document.createElement('div');
+      item.className = 'toc-item';
+      item.innerHTML = `<span class="toc-num">${pad(i+1)}</span><span>${title}</span>`;
+      item.addEventListener('click', () => { goTo(i); closeToc(); });
+      $tocList.appendChild(item);
+    });
+  }
+  function openToc(){ $toc.classList.add('is-open'); }
+  function closeToc(){ $toc.classList.remove('is-open'); }
+  $tocBtn.addEventListener('click', openToc);
+  $tocClose.addEventListener('click', closeToc);
+  $toc.addEventListener('click', (e) => { if (e.target === $toc) closeToc(); });
+
+  // Copy buttons
+  window.copyMe = function(btn){
+    const pre = btn.closest('pre');
+    if (!pre) return;
+    const txt = pre.innerText.replace(/복사$|전체 복사$/, '').trim();
+    navigator.clipboard.writeText(txt).then(() => {
+      const old = btn.textContent;
+      btn.textContent = '복사됨 ✓';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = old; btn.classList.remove('copied'); }, 1500);
+    });
+  };
+
+  // Init
+  buildToc();
+  fromHash();
+  render();
+
+  // Touch swipe
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, {passive:true});
+  document.addEventListener('touchend',   (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 60) { dx < 0 ? next() : prev(); }
+  });
+</script>
+
+</body>
+</html>
