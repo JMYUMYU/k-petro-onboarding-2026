@@ -527,7 +527,7 @@
       </div>
       <h2 class="text-3xl sm:text-5xl font-black tracking-tight mt-2">두 가지면 충분합니다.</h2>
 
-      <div class="mt-10 grid md:grid-cols-2 gap-6 flex-1">
+      <div class="mt-10 grid md:grid-cols-2 gap-6">
         <div class="brut p-6">
           <div class="text-5xl">🤖</div>
           <h3 class="font-black text-2xl mt-3">① Gemini Advanced</h3>
@@ -536,6 +536,7 @@
             <li><span class="kbd">gemini.google.com</span> 접속</li>
             <li>Google 계정으로 로그인</li>
             <li>모델이 <b>Gemini Advanced</b>인지 확인</li>
+            <li class="font-bold" style="color:#ff5b1f">⭐ <b>Canvas 기능 활성화 ← 가장 중요!</b></li>
           </ol>
         </div>
 
@@ -551,7 +552,52 @@
         </div>
       </div>
 
-      <div class="mt-8 brut p-5 bg-lemon">
+      <!-- 🎨 Canvas 핵심 안내 -->
+      <div class="mt-6 brut-lg p-6 relative" style="background:#ff5b1f;color:#fffdf7">
+        <div class="absolute -top-3 -left-3 chip chip-dark">⭐ 가장 중요</div>
+        <div class="flex flex-col md:flex-row items-start gap-5">
+          <div class="text-6xl flex-shrink-0">🎨</div>
+          <div class="flex-1">
+            <h3 class="font-black text-2xl">Gemini의 <span class="underline decoration-4 decoration-white underline-offset-4">Canvas 기능</span>을 꼭 켜세요!</h3>
+            <p class="text-sm mt-3 leading-relaxed">
+              Canvas를 안 켜면 Gemini가 <b>코드만 글로 적어줍니다</b> — 결과물이 어떻게 생겼는지 안 보여요.<br/>
+              Canvas를 켜면 <b>오른쪽에 실시간 웹페이지 미리보기</b>가 뜨면서, 즉시 보고 즉시 수정할 수 있습니다.
+            </p>
+            <div class="mt-4 grid sm:grid-cols-2 gap-3">
+              <div class="brut-sm p-3" style="background:#fffdf7;color:#0b0b0c">
+                <div class="chip chip-dark">❌ Canvas OFF</div>
+                <p class="text-xs mt-2 font-bold">"네, 이런 코드를 작성했습니다."</p>
+                <pre class="text-[10px] mt-1 font-mono leading-tight opacity-70 whitespace-pre">&lt;!doctype html&gt;
+&lt;html&gt;
+  &lt;body&gt;
+  ...
+&lt;/html&gt;</pre>
+                <p class="text-xs mt-2 text-red-600">→ 글만 나옴 😩</p>
+              </div>
+              <div class="brut-sm p-3" style="background:#fffdf7;color:#0b0b0c">
+                <div class="chip chip-lemon">✅ Canvas ON</div>
+                <p class="text-xs mt-2 font-bold">우측에 미리보기 패널 ✨</p>
+                <div class="mt-1 border-2 border-ink bg-mint p-2 text-center">
+                  <div class="text-[9px] font-mono opacity-60">PREVIEW</div>
+                  <div class="text-[9px] font-bold mt-0.5">🌟 실제 웹페이지</div>
+                  <div class="grid grid-cols-3 gap-0.5 mt-1">
+                    <div class="h-3 bg-lemon border border-ink"></div>
+                    <div class="h-3 bg-rose border border-ink"></div>
+                    <div class="h-3 bg-sky border border-ink"></div>
+                  </div>
+                </div>
+                <p class="text-xs mt-2" style="color:#3f6133">→ 진짜 결과물 🎉</p>
+              </div>
+            </div>
+            <div class="mt-4 brut-sm p-3" style="background:#fffdf7;color:#0b0b0c">
+              <p class="text-xs font-bold">💡 Canvas 켜는 법</p>
+              <p class="text-xs mt-1">채팅창 아래쪽 <span class="kbd">＋</span> 또는 <span class="kbd">Tools</span> 메뉴에서 <b>"Canvas"</b> 선택. 또는 그냥 프롬프트에 "<b>Canvas로 보여줘</b>" 한 마디만 추가하세요!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 brut p-5 bg-lemon">
         <div class="chip chip-dark mb-3">💡 시작하기 전 꿀팁 3가지</div>
         <ul class="text-sm space-y-2">
           <li>① <b>한 번에 완성하려 하지 마세요.</b> Day 1엔 재료만, Day 2엔 다듬기만 — 단계별로 끊어 작업할수록 결과가 좋아집니다.</li>
@@ -898,6 +944,21 @@
           <p class="mt-6 text-zinc-700 max-w-xl text-lg">
             디자인도 마찬가지. <b>"내 콘텐츠와 성향에 어울리는 디자인이 뭘까?"</b> 부터 Gemini에게 추천 받습니다.
           </p>
+
+          <!-- Canvas Reminder before code generation -->
+          <div class="mt-8 brut p-5 max-w-xl" style="background:#ff5b1f;color:#fffdf7">
+            <div class="flex items-start gap-3">
+              <div class="text-4xl flex-shrink-0">🎨</div>
+              <div>
+                <div class="font-black text-base">⚠️ 시작 전 한 번 더 — Canvas 켰나요?</div>
+                <p class="text-sm mt-1.5 leading-relaxed">
+                  지금부터는 <b>코드 생성</b>이 주요 작업입니다. Canvas가 꺼져 있으면 <b>코드만 글로</b> 나옵니다.<br/>
+                  <b>우측에 실시간 미리보기</b>를 보려면 Canvas 모드 필수!
+                </p>
+                <p class="text-xs mt-3 opacity-90">💡 켜는 법은 슬라이드 03(준비물)에서 다시 확인하실 수 있어요.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1081,7 +1142,8 @@
                 "<b>네오 브루탈리즘 스타일</b>로 가자!
                 <b>React + Tailwind CSS CDN</b>을 사용해서 <b>단일 HTML 파일</b>로 코드를 짜줘.
                 내 콘텐츠는 위에서 정리한 그대로 넣어줘.
-                모바일에서도 안 깨지게 <b>반응형</b>으로."
+                모바일에서도 안 깨지게 <b>반응형</b>으로.
+                <b style="background:#f5d547;padding:0 4px">그리고 꼭 Canvas로 결과물을 보여줘!</b>"
               </div>
             </div>
           </div>
@@ -1092,7 +1154,8 @@
               <div class="name-row">Gemini</div>
               <div class="bubble-gemini">
                 "네! 요청하신 <b>네오 브루탈리즘 스타일</b>의 반응형 단일 HTML 코드입니다.
-                아래 코드를 통째로 복사해 <span class="kbd">디지털 온보딩 포트폴리오_이름.html</span>로 저장하세요."
+                <b style="background:#b8f2c7;padding:0 4px">Canvas에 실시간 미리보기를 함께 띄웠습니다 → 우측 패널에서 바로 확인하세요!</b>
+                마음에 들면 우측 상단 <b>📋 Copy code</b>를 눌러 복사한 뒤 <span class="kbd">디지털 온보딩 포트폴리오_이름.html</span>로 저장하세요."
                 <pre class="codeblock mt-3" style="font-size:11px">&lt;!doctype html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
