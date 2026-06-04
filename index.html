@@ -927,6 +927,173 @@
   </section>
 
   <!-- =========================================================
+       08.5 — BOX SUMMARY (Wrap-up of STEP 1)
+       ========================================================= -->
+  <section class="slide" data-title="📦 원고를 박스로 정리받기">
+    <div class="slide-inner">
+      <div class="flex items-baseline gap-3 mb-2 flex-wrap">
+        <span class="chip chip-lemon">STEP 1 마무리</span>
+        <span class="chip">📦 박스로 정리받기</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-black tracking-tight mt-2">원고가 다 됐다면, <span class="underbar">박스로 받으세요.</span></h2>
+      <p class="mt-3 text-zinc-700 max-w-2xl">지금까지 Gemini와 주고받은 내 5단어·정체성·강점·로드맵 등을 <b>한 번에 복사할 수 있는 박스</b>로 정리받습니다. 다음 단계에서 새 대화창에 그대로 붙여넣을 재료가 됩니다.</p>
+
+      <!-- Chat Mockup -->
+      <div class="mt-8 chat-frame max-w-4xl">
+        <div class="chat-bar">
+          <div class="led"></div>
+          <span>💻 Gemini Advanced</span>
+          <span class="ml-auto opacity-60 text-xs font-mono">대화 ② 마무리</span>
+        </div>
+        <div class="chat-body">
+
+          <div class="msg-row">
+            <div class="avatar user">🙋</div>
+            <div class="flex-1">
+              <div class="name-row">나(신입사원)</div>
+              <div class="bubble-user">
+                "고마워! 이제 <b>지금까지 우리가 만든 내용 전체</b>를
+                <b style="background:#f5d547;padding:0 4px">복사하기 좋게 한 박스로 정리</b>해줘.
+                다음 단계에서 다른 채팅에 붙여넣을 거야."
+              </div>
+            </div>
+          </div>
+
+          <div class="msg-row">
+            <div class="avatar gemini">✨</div>
+            <div class="flex-1">
+              <div class="name-row">Gemini</div>
+              <div class="bubble-gemini">
+                "네! 지금까지 정리한 모든 내용을 한 박스에 담았습니다. 우측 상단 <b>📋 Copy</b> 버튼을 누르면 한 번에 복사됩니다."
+                <pre class="codeblock mt-3" style="font-size:11px">[ 나의 디지털 포트폴리오 — 정리본 ]
+
+▣ 이름: 홍길동
+▣ MBTI: ENTJ — 전략적 실행가
+▣ 5단어 정체성:
+  정직한 · 분석가 · 도전 · 듣는 · 기록
+
+▣ 한 줄 미션:
+  "데이터에 기반한 분석과 추진력으로
+   동료가 의지할 수 있는 파트너가 되겠습니다."
+
+▣ 핵심 역량 3가지:
+  1) 데이터 분석 — 95
+  2) 끈기·꼼꼼함 — 90
+  3) 협업·소통 — 88
+
+▣ 커리어 로드맵:
+  1년차: 기초 자격 취득 + OJT 마스터
+  3년차: 직무 전문가 + 사내 매뉴얼 개선
+  5년차: 팀 리드 + 후배 멘토링
+
+▣ 좋아하는 인용:
+  "측정할 수 없으면 관리할 수 없다." — P.Drucker
+
+▣ 연락:
+  email@kpetro.or.kr<button class="copybtn" onclick="copyMe(this)">복사</button></pre>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-6 brut p-4 bg-lemon">
+        <div class="flex items-start gap-3">
+          <div class="text-2xl">💡</div>
+          <p class="text-sm flex-1"><b>핵심:</b> 박스 안에는 <b>내가 쓴 진짜 내용</b>이 들어가야 합니다. 위 예시는 형식만 참고하세요. 본인의 5단어·일화·목표가 정리된 박스를 받으면 됩니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       08.6 — NEW CHAT + CANVAS (Transition into STEP 2)
+       ========================================================= -->
+  <section class="slide" data-title="🔄 새 대화창 + Canvas로 시작">
+    <div class="slide-inner">
+      <div class="flex items-baseline gap-3 mb-2 flex-wrap">
+        <span class="chip chip-dark">STEP 1 → STEP 2</span>
+        <span class="chip" style="background:#ff5b1f;color:#fffdf7;border-color:#0b0b0c">🔄 새 대화창에서 다시 시작</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-black tracking-tight mt-2">새 대화창을 열고, <span class="underbar">Canvas를 켭니다.</span></h2>
+      <p class="mt-3 text-zinc-700 max-w-2xl">원고 박스를 들고, 디자인·코드를 만들기 위한 <b>새 대화창으로 이사</b>합니다. 새 채팅이어야 하는 이유가 있어요.</p>
+
+      <!-- WHY a new chat -->
+      <div class="mt-8 brut-lg p-6" style="background:#ff5b1f;color:#fffdf7">
+        <div class="chip chip-dark mb-3">⚠️ 왜 새 대화창인가요?</div>
+        <h3 class="font-black text-xl">프롬프트의 <span class="underline decoration-4 decoration-white underline-offset-4">대화 맥락</span>이 결정적입니다.</h3>
+        <div class="mt-4 grid sm:grid-cols-2 gap-3 text-sm">
+          <div class="brut-sm p-3" style="background:#fffdf7;color:#0b0b0c">
+            <div class="chip">❌ 같은 채팅에서 계속</div>
+            <ul class="mt-2 space-y-1 text-xs leading-relaxed">
+              <li>• 이전 대화가 길어져 AI가 <b>초기 의도를 잊습니다</b></li>
+              <li>• 카피 다듬기 톤이 디자인에도 영향을 줘 결과가 어색해짐</li>
+              <li>• Canvas를 중간에 켜면 컨텍스트가 꼬일 수 있음</li>
+            </ul>
+          </div>
+          <div class="brut-sm p-3" style="background:#fffdf7;color:#0b0b0c">
+            <div class="chip chip-mint">✅ 새 대화창에서 시작</div>
+            <ul class="mt-2 space-y-1 text-xs leading-relaxed">
+              <li>• 깨끗한 맥락 = <b>명확한 결과</b></li>
+              <li>• 박스로 정리된 정보만 입력 → AI 집중도 ↑</li>
+              <li>• Canvas가 처음부터 켜져있어 미리보기 즉시 표시</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 Steps -->
+      <h3 class="font-black text-xl mt-8 mb-3">📋 따라하기 — 3단계</h3>
+      <div class="grid md:grid-cols-3 gap-4">
+        <div class="brut p-5">
+          <div class="text-4xl">➕</div>
+          <div class="chip mt-2">1</div>
+          <h4 class="font-black mt-2">새 채팅 열기</h4>
+          <p class="text-xs text-zinc-700 mt-2">Gemini 좌측 사이드바의 <b>"새 채팅"</b> (또는 <span class="kbd">＋ New Chat</span>) 클릭.</p>
+        </div>
+        <div class="brut p-5 bg-lemon">
+          <div class="text-4xl">🎨</div>
+          <div class="chip mt-2">2</div>
+          <h4 class="font-black mt-2">Canvas 켜기 (필수!)</h4>
+          <p class="text-xs mt-2">입력창 아래 <span class="kbd">＋</span> 또는 <span class="kbd">Tools</span>에서 <b>Canvas</b> 선택. 또는 프롬프트에 "<b>Canvas로</b>" 한 마디 추가.</p>
+        </div>
+        <div class="brut p-5 bg-mint">
+          <div class="text-4xl">📋</div>
+          <div class="chip mt-2">3</div>
+          <h4 class="font-black mt-2">박스 붙여넣기 + 요청</h4>
+          <p class="text-xs mt-2">복사한 박스를 본문에 붙이고, 아래의 새 프롬프트를 함께 전송.</p>
+        </div>
+      </div>
+
+      <!-- Example Prompt for New Chat -->
+      <div class="mt-8">
+        <div class="chip chip-accent">📋 새 대화창에 보낼 프롬프트 (복사해서 쓰세요)</div>
+        <pre class="codeblock mt-3">안녕! 나는 한국석유관리원에 입사한 신입사원이야.
+아래는 내 디지털 포트폴리오의 모든 재료야.
+
+[ 여기에 STEP 1에서 받은 박스를 붙여넣기 ]
+
+이 내용을 바탕으로, 두 가지를 도와줘.
+
+1) 내 성향·키워드에 어울리는 <b>웹 디자인 스타일 이미지를 5가지</b>
+   추천해줘. 각각 컬러 팔레트와 분위기 설명을 함께.
+
+2) 그중 내가 하나를 고르면, <b>Canvas에 실제 웹페이지로</b>
+   만들어 보여줘. React + Tailwind CSS CDN 기반 단일 HTML 파일,
+   모바일 반응형으로. 결과는 Canvas에서 바로 미리보기.<button class="copybtn" onclick="copyMe(this)">복사</button></pre>
+      </div>
+
+      <div class="mt-6 brut p-4 bg-chalk">
+        <div class="flex items-start gap-3">
+          <div class="text-2xl">🎯</div>
+          <p class="text-sm flex-1"><b>다음 슬라이드부터</b>는 이 새 대화창에서 일어나는 일을 보여드립니다. Canvas가 켜진 상태로 디자인 추천을 받고, 코드까지 만들어집니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
        09 — STEP 2 INTRO
        ========================================================= -->
   <section class="slide" data-title="STEP 2 · 디자인·코드">
